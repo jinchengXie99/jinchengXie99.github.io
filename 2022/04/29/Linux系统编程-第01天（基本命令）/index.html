@@ -1,0 +1,1579 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Linux系统编程-第01天（基本命令） | Jincのblog</title><meta name="keywords" content="Linux系统编程"><meta name="author" content="Jincheng Xie"><meta name="copyright" content="Jincheng Xie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Linux基本命令，旨在属性通过命令操作Linux系统(Ubuntu 16.04  18.04)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统编程-第01天（基本命令）">
+<meta property="og:url" content="https://jinchengxie99.github.io/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/index.html">
+<meta property="og:site_name" content="Jincのblog">
+<meta property="og:description" content="Linux基本命令，旨在属性通过命令操作Linux系统(Ubuntu 16.04  18.04)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img1.baidu.com/it/u=3424568019,2040822130&fm=253&fmt=auto&app=138&f=PNG?w=500&h=300">
+<meta property="article:published_time" content="2022-04-29T15:13:15.000Z">
+<meta property="article:modified_time" content="2022-05-09T06:18:51.594Z">
+<meta property="article:author" content="Jincheng Xie">
+<meta property="article:tag" content="Linux系统编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img1.baidu.com/it/u=3424568019,2040822130&fm=253&fmt=auto&app=138&f=PNG?w=500&h=300"><link rel="shortcut icon" href="https://down.556z.com/upload/2020/12/202012141607934528737148.jpg"><link rel="canonical" href="https://jinchengxie99.github.io/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":75,"languages":{"author":"作者: Jincheng Xie","link":"链接: ","source":"来源: Jincのblog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux系统编程-第01天（基本命令）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-09 14:18:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://down.556z.com/upload/2020/12/202012141607934528737148.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Jincのblog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux系统编程-第01天（基本命令）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-29T15:13:15.000Z" title="发表于 2022-04-29 23:13:15">2022-04-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-09T06:18:51.594Z" title="更新于 2022-05-09 14:18:51">2022-05-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux系统编程-第01天（基本命令）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Linux系统编程-第01天（基本命令）"><a href="#Linux系统编程-第01天（基本命令）" class="headerlink" title="Linux系统编程-第01天（基本命令）"></a>Linux系统编程-第01天（基本命令）</h1><h2 id="01-学习目标"><a href="#01-学习目标" class="headerlink" title="01. 学习目标"></a>01. 学习目标</h2><ul>
+<li>说出Linux下的目录结构和常见目录的作用</li>
+<li>熟练使用Linux下的相对路径和绝对路径</li>
+<li>熟练使用Linux下常用文件和目录操作相关的命令</li>
+<li>熟练使用修改用户权限、用户和用户组相关的命令</li>
+<li>熟练使用find命令相关参数进行文件查找</li>
+<li>熟练使用grep命令根据文件内容进行文件的查找</li>
+</ul>
+<h2 id="02-Linux-x2F-Unix操作系统简介"><a href="#02-Linux-x2F-Unix操作系统简介" class="headerlink" title="02. Linux&#x2F;Unix操作系统简介"></a>02. Linux&#x2F;Unix操作系统简介</h2><p>Linux创始人：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/0linux%E5%88%9B%E5%A7%8B%E4%BA%BA.png" alt="0linux创始人"></p>
+<h3 id="2-1-Linux操作系统的目标-了解"><a href="#2-1-Linux操作系统的目标-了解" class="headerlink" title="2.1 Linux操作系统的目标(了解)"></a>2.1 Linux操作系统的目标(了解)</h3><ul>
+<li><p>方便性：使计算机系统易于使用</p>
+</li>
+<li><p>有效性：以更有效的方式使用计算机系统资源</p>
+</li>
+<li><p>扩展性：方便用户有效开发、测试和引进新功能</p>
+</li>
+<li><p>开放性：所谓开放性，是指系统能遵循世界标准规范，特别是遵循开放系统互连OSI 国际标准。</p>
+</li>
+</ul>
+<h3 id="2-2-Linux操作系统的作用-了解"><a href="#2-2-Linux操作系统的作用-了解" class="headerlink" title="2.2 Linux操作系统的作用(了解)"></a>2.2 Linux操作系统的作用(了解)</h3><p>操作系统在计算机系统中承上启下的地位：向下封装硬件，向上提供操作接口。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9C%B0%E4%BD%8D.png" alt="1.操作系统地位"></p>
+<h3 id="2-3-Unix家族-了解"><a href="#2-3-Unix家族-了解" class="headerlink" title="2.3 Unix家族 (了解)"></a>2.3 Unix家族 (了解)</h3><ul>
+<li>1965：贝尔实验室（Bell Labs）加入一项由通用电气和麻省理工学院合作的计划，该计划要建立一套多使用者、多任务、多层次的MULTICS操作系统。后来因为项目太为复杂失败。</li>
+<li>1969：其主要开发者Thompson（后被称为UNIX之父）和Ritchie领导一组开发者，开发了一个新的多任务操作系统—UNICS，后来被改名为Unix，最初的Unix是用B语言和汇编语言混合编写而成。</li>
+<li>1971：两人在贝尔实验室共同发明了C语言，并于1973用C语言重写了Unix。</li>
+<li>1974：UNIX第一次出现在贝尔实验室以外。此后UNIX被政府机关，研究机构，企业和大学注意到，并逐渐流行开来。</li>
+<li>1980：有两个最主要的Unix的版本线，一个是Berkeley的BSD UNIX，另一个是AT&amp;T的Unix，两者的竞争最终引发了Unix的战争，最终导致Unix出现各种各样的变种。</li>
+<li>1982：AT&amp;T基于版本7开发了UNIX System Ⅲ的第一个商业版本，并不再开源。</li>
+<li>1992~2001：由于版权问题，AT&amp;T公司与BSD开发组开始了一场将近10年的版权官司。UNIX由于其昂贵的费用，仅局限于大型机的应用；BSD因为版权问题，失去了宝贵的发展时期。</li>
+</ul>
+<h3 id="2-4-Linux家族-了解"><a href="#2-4-Linux家族-了解" class="headerlink" title="2.4 Linux家族(了解)"></a>2.4 Linux家族(了解)</h3><ul>
+<li>Minix（mini-UNIX）最初是由Andrew Tanenbaum教授，仿照4.3BSD的源代码，白手起家完成了12000行C语言的编写工作这个系统只是一个教学工具，没有什么实际应用价值。</li>
+<li>1990年，Linus Torvalds决定编写一个自己的Minix内核，初名为Linus’ Minix，意为Linus的Minix内核，后来改名为Linux，此内核于1991年正式发布，并逐渐引起人们的注意。</li>
+<li>Linux操作系统的诞生、发展、和成长过程依赖于五个重要支柱：unix操作系统、minix操作系统、GNU计划、POSIX标准和互联网。</li>
+<li>GNU计划：GNU是“GNU is Not Unix”的递归缩写，由Richard M.Stallman于1984年创办,旨在开发一个免费、类unix的操作系统-GNU系统及其开发工具；Emacs编辑系统、BASH shell程序、GCC、GDB等开发工具都是GNU组织的产品。</li>
+<li>1992年Linux与其他GNU软件结合，完全自由的操作系统正式诞生。该操作系统往往被称为“GNU&#x2F;Linux”或简称Linux。</li>
+<li>POSIX标准：POSIX标准定义了操作系统应该为应用程序提供的接口标准，POSIX标准用来统一Unix、Linux各分支编程接口，以提高其通用性和可移植性。</li>
+</ul>
+<h3 id="2-5-Linux和Unix的联系-了解"><a href="#2-5-Linux和Unix的联系-了解" class="headerlink" title="2.5 Linux和Unix的联系(了解)"></a>2.5 Linux和Unix的联系(了解)</h3><ul>
+<li><p>UNIX系统是工作站上最常用的操作系统，它是一个多用户、多任务的实时操作系统，允许多人同时访问计算机， 并同时运行多个任务。UNIX系统具有稳定、高效、安全、方便、功能强大等诸多优点，自20世纪70年代开始便运行在许多大型和小型计算机上。</p>
+</li>
+<li><p>UNIX虽然是一个安全、稳定且功能强大的操作系统，但它也一直是一种大型的而且对运行平台要求很高的操作系统，只能在工作站或小型机上才能发挥全部功能，并且价格昂贵，对普通用户来说是可望而不可及的，这为后来Linux的崛起提供了机会，Linux是一个类UNIX操作系统。</p>
+</li>
+<li><p>Linux是免费的、不受版权制约、与UNIX兼容的操作系统。</p>
+</li>
+<li><p>Linux在x86架构上实现了UNIX系统的全部特性，具有多用户多任务的能力，同时保持了高效性和稳定性。</p>
+</li>
+<li><p>Linux具有如下的优秀的特点：</p>
+<p>\1) 开放性；</p>
+<p>\2) 完全免费；</p>
+<p>\3) 多用户；</p>
+<p>\4) 多任务；</p>
+<p>\5) 良好的用户界面；</p>
+<p>\6) 设备独立性；</p>
+<p>\7) 提供了丰富的网络功能；</p>
+<p>\8) 可靠的系统安全性；</p>
+<p>\9) 良好的可移植性。</p>
+</li>
+</ul>
+<h3 id="2-6-Linux内核介绍-了解"><a href="#2-6-Linux内核介绍-了解" class="headerlink" title="2.6 Linux内核介绍(了解)"></a>2.6 Linux内核介绍(了解)</h3><p>内核(kernel)是系统的心脏，是运行程序和管理像磁盘和打印机等硬件设备的核心程序，它提供了一个在裸设备与应用程序间的抽象层。</p>
+<p>Linux内核版本又分为<strong>稳定版</strong>和<strong>开发版</strong>，两种版本是相互关联，相互循环：</p>
+<ul>
+<li>稳定版：具有工业级强度，可以广泛地应用和部署。新的稳定版相对于较旧的只是修正一些bug或加入一些新的驱动程序。</li>
+<li>开发版：由于要试验各种解决方案，所以变化很快。</li>
+</ul>
+<p>内核源码网址：<a target="_blank" rel="noopener" href="http://www.kernel.org,所有来自全世界的对linux源码的修改最终都会汇总到这个网站,由linus领导的开源社区对其进行甄别和修改最终决定是否进入到linux主线内核源码中./">http://www.kernel.org，所有来自全世界的对Linux源码的修改最终都会汇总到这个网站，由Linus领导的开源社区对其进行甄别和修改最终决定是否进入到Linux主线内核源码中。</a></p>
+<p>OpenWRT(Linux内核 + 文件系统)</p>
+<p><strong>Linux内核代码图：</strong></p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/2Linux%E5%86%85%E6%A0%B8%E5%9B%BE.png" alt="2Linux内核图"></p>
+<p><strong>Linux内核源码获取方式：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Protocol</th>
+<th align="left">Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.ietf.org/rfc/rfc2616.txt">HTTP</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.kernel.org/pub/">https://www.kernel.org/pub/</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://git-scm.com/">GIT</a></td>
+<td align="left"><a target="_blank" rel="noopener" href="https://git.kernel.org/">https://git.kernel.org/</a></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://rsync.samba.org/">RSYNC</a></td>
+<td align="left"><a href="rsync://rsync.kernel.org/pub/">rsync:&#x2F;&#x2F;rsync.kernel.org&#x2F;pub&#x2F;</a></td>
+</tr>
+</tbody></table>
+<h3 id="2-7-Linux发行版本-了解"><a href="#2-7-Linux发行版本-了解" class="headerlink" title="2.7 Linux发行版本(了解)"></a>2.7 Linux发行版本(了解)</h3><p>Linux发行版 (也被叫做 GNU&#x2F;Linux 发行版) 通常包含了包括桌面环境、办公套件、媒体播放器、数据库等应用软件。</p>
+<p>这些操作系统通常由Linux内核、以及来自GNU计划的大量的函式库，和基于X Window的图形界面，在X Window中用户同样可以通过使用鼠标对窗口、菜单等进行操作来完成相应的工作。</p>
+<p>X Window系统是一个非常出色的图形窗口系统，是类UNIX系统的图形用户界面的工业标准。X Window系统最重要的特征之一就是它的结构与设备无关。</p>
+<p>X Window系统的<strong>主要特点</strong>有如下几点：</p>
+<ul>
+<li>X Window系统是客户机&#x2F;服务器结构的。X Window的实现是与操作系统内核分开的，其主要由X Server和X Client两部分组成。</li>
+<li>X Window系统不是Unix&#x2F;Linux操作系统的必须的构成部分，而只是一个可选的应用程序组件。</li>
+</ul>
+<p><strong>Best Linux distro for developers in 2018</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>POSITION</strong></th>
+<th align="left"><strong>2015</strong></th>
+<th align="left"><strong>2014</strong></th>
+<th align="left">2018</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">Linux Mint</td>
+<td align="left">Linux Mint</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.archlinux.org/">Arch Linux</a></td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Debian</td>
+<td align="left">Ubuntu</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.debian.org/">Debian</a></td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Ubuntu</td>
+<td align="left">Debian</td>
+<td align="left"><a target="_blank" rel="noopener" href="http://raspbian.org/">Raspbian</a></td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">openSUSE</td>
+<td align="left">openSUSE</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.gentoo.org/">Gentoo</a></td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">Fedora</td>
+<td align="left">Fedora</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.ubuntu.com/">Ubuntu</a></td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">Mageia</td>
+<td align="left">Mageia</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://getfedora.org/">Fedora</a></td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">Manjaro</td>
+<td align="left">Arch</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.opensuse.org/">OpenSUSE</a></td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left">CentOS</td>
+<td align="left">Elementary</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.centos.org/">CentOS</a></td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">Arch</td>
+<td align="left">CentOS</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://solus-project.com/">Solus</a></td>
+</tr>
+<tr>
+<td align="left">10</td>
+<td align="left">Elementary</td>
+<td align="left">Zorin</td>
+<td align="left"><a target="_blank" rel="noopener" href="http://puppylinux.org/">Puppy Linux</a></td>
+</tr>
+</tbody></table>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://www.techradar.com/news/best-linux-distro-for-developers">Best Linux distro for developers in 2018</a></p>
+<p>推荐使用Ubuntu Centos</p>
+<h3 id="2-8-Unix-x2F-Linux开发应用领域介绍-了解"><a href="#2-8-Unix-x2F-Linux开发应用领域介绍-了解" class="headerlink" title="2.8 Unix&#x2F;Linux开发应用领域介绍(了解)"></a>2.8 Unix&#x2F;Linux开发应用领域介绍(了解)</h3><ul>
+<li><p>Unix&#x2F;Linux服务器</p>
+<p>是目前Unix&#x2F;Linux应用最多的一个领域，可以提供Web、FTP、Gopher、SMTP&#x2F;POP3、Proxy&#x2F;Cache、DNS等服务器，支持服务器集群，支持虚拟主机、虚拟服务、VPN等。</p>
+</li>
+<li><p>嵌入式Linux系统</p>
+<p>嵌入式Linux是将流行的Linux操作系统进行剪裁修改，能够在嵌入式计算机系统上运行的一种操作系统。Linux嵌入式系统能够支持多种CPU和硬件平台，性能稳定，剪裁性好，开发和使用容易。其中包括Embedix、uCLinux、muLinux等。</p>
+</li>
+<li><p>桌面应用</p>
+<p>近年来，Linux系统特别强调在桌面应用方面的改进，并且已达到相当的水平，完全可以作为一种集办公应用、多媒体应用、网络应用等多方面功能于一体的图形界面操作系统，在办公应用方面，Unix&#x2F;Linux集成了openOffice、SUN公司的StarOffice以及KOffice等工具。</p>
+</li>
+<li><p>电子政务</p>
+<p>随着Linux的快速发展，Linux已逐渐成为Windows系统重要的竞争力量。尤其是Linux在安全性方面的独特优势，又使得Linux在政府应用领域得到很大的发展。目前一些国家正将其电子政务系统向Linux平台迁移。中国政府也对Linux给予极大的支持。</p>
+</li>
+</ul>
+<p>OpenWrt</p>
+<h2 id="03-Linux目录结构"><a href="#03-Linux目录结构" class="headerlink" title="03. Linux目录结构"></a>03. Linux目录结构</h2><h3 id="3-1-Win和Linux文件系统区别-了解"><a href="#3-1-Win和Linux文件系统区别-了解" class="headerlink" title="3.1 Win和Linux文件系统区别 (了解)"></a>3.1 Win和Linux文件系统区别 (了解)</h3><p>在 windows 平台下，打开“计算机”，我们看到的是一个个的驱动器盘符：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/3Windows%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.png" alt="3Windows文件系统"></p>
+<p>每个驱动器都有自己的根目录结构，这样形成了多个树并列的情形，如图所示：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/4Windows%E7%9B%AE%E5%BD%95%E6%A0%91.png" alt="4Windows目录树"></p>
+<p>在 Linux 下，我们是看不到这些驱动器盘符，我们看到的是文件夹（目录）：</p>
+<p>RedHat系统：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/5Redhat.jpg" alt="5Redhat"></p>
+<p>Ubuntu系统</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/6Ubuntu.jpg" alt="6Ubuntu"></p>
+<p>在早期的 UNIX 系统中，各个厂家各自定义了自己的 UNIX 系统文件目录，比较混乱。Linux 面世不久后，对文件目录进行了标准化，于1994年对根文件目录做了统一的规范，推出 FHS ( Filesystem Hierarchy Standard ) 的 Linux 文件系统层次结构标准。FHS 标准规定了 Linux 根目录各文件夹的名称及作用，统一了Linux界命名混乱的局面。</p>
+<p>和Windows操作系统类似，所有Unix&#x2F;Linux的数据都是由文件系统按照树型目录结构管理的。而且Unix&#x2F;Linux操作系统同样要区分文件的类型，判断文件的存取属性和可执行属性。</p>
+<p>Unix&#x2F;Linux也采用了树状结构的文件系统，它由目录和目录下的文件一起构成。但Unix&#x2F;Linux文件系统不使用驱动器这个概念，而是使用单一的根目录结构，所有的分区都挂载到单一的“&#x2F;”目录上，其结构示意图如图所示：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/7Linux%E7%9B%AE%E5%BD%95%E6%A0%91%E7%8A%B6%E5%9B%BE.png" alt="7Linux目录树状图">无论何种版本的 Linux 发行版，桌面、应用是 Linux 的外衣，文件组织、目录结构才是Linux的内心。</p>
+<h3 id="3-2-Linux常见目录介绍-熟悉"><a href="#3-2-Linux常见目录介绍-熟悉" class="headerlink" title="3.2 Linux常见目录介绍(熟悉)"></a>3.2 Linux常见目录介绍(熟悉)</h3><ul>
+<li><strong>&#x2F;：</strong>根目录，一般根目录下只存放目录，在Linux下有且只有一个根目录。所有的东西都是从这里开始。当你在终端里输入“&#x2F;home”，你其实是在告诉电脑，先从&#x2F;（根目录）开始，再进入到home目录。</li>
+<li><strong>&#x2F;bin:</strong> <strong>&#x2F;usr&#x2F;bin:</strong> 可执行二进制文件的目录，如常用的命令ls、tar、mv、cat等。</li>
+<li><strong>&#x2F;boot：</strong>放置linux系统启动时用到的一些文件，如Linux的内核文件：&#x2F;boot&#x2F;vmlinuz，系统引导管理器：&#x2F;boot&#x2F;grub。</li>
+<li><strong>&#x2F;dev：</strong>存放linux系统下的设备文件，访问该目录下某个文件，相当于访问某个设备，常用的是挂载光驱 mount &#x2F;dev&#x2F;cdrom &#x2F;mnt。</li>
+<li><strong>&#x2F;etc</strong>：系统配置文件存放的目录，不建议在此目录下存放可执行文件，重要的配置文件有 &#x2F;etc&#x2F;inittab、&#x2F;etc&#x2F;fstab、&#x2F;etc&#x2F;init.d、&#x2F;etc&#x2F;X11、&#x2F;etc&#x2F;sysconfig、&#x2F;etc&#x2F;xinetd.d。</li>
+<li><strong>&#x2F;home：</strong>系统默认的用户家目录，新增用户账号时，用户的家目录都存放在此目录下，<del>表示当前用户的家目录，</del>edu 表示用户 edu 的家目录。</li>
+<li><strong>&#x2F;lib: &#x2F;usr&#x2F;lib: &#x2F;usr&#x2F;local&#x2F;lib</strong>系统使用的函数库的目录，程序在执行过程中，需要调用一些额外的参数时需要函数库的协助。</li>
+<li><strong>&#x2F;lost+fount：</strong>系统异常产生错误时，会将一些遗失的片段放置于此目录下。</li>
+<li><strong>&#x2F;mnt:&#x2F;media：</strong>光盘默认挂载点，通常光盘挂载于 &#x2F;mnt&#x2F;cdrom 下，也不一定，可以选择任意位置进行挂载。</li>
+<li><strong>&#x2F;opt：</strong>给主机额外安装软件所摆放的目录。</li>
+<li><strong>&#x2F;proc</strong>：此目录的数据都在内存中，如系统核心，外部设备，网络状态，由于数据都存放于内存中，所以不占用磁盘空间，比较重要的目录有 &#x2F;proc&#x2F;cpuinfo、&#x2F;proc&#x2F;interrupts、&#x2F;proc&#x2F;dma、&#x2F;proc&#x2F;ioports、&#x2F;proc&#x2F;net&#x2F;* 等。</li>
+<li><strong>&#x2F;root：</strong>系统管理员root的家目录。</li>
+<li><strong>&#x2F;sbin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;sbin：</strong>放置系统管理员使用的可执行命令，如fdisk、shutdown、mount 等。与 &#x2F;bin 不同的是，这几个目录是给系统管理员 root使用的命令，一般用户只能”查看”而不能设置和使用。</li>
+<li>**&#x2F;tmp**<strong>：</strong>一般用户或正在执行的程序临时存放文件的目录，任何人都可以访问，重要数据不可放置在此目录下。</li>
+<li><strong>&#x2F;srv：</strong>服务启动之后需要访问的数据目录，如 www 服务需要访问的网页数据存放在 &#x2F;srv&#x2F;www 内。</li>
+<li><strong>&#x2F;usr</strong>：应用程序存放目录，&#x2F;usr&#x2F;bin 存放应用程序，&#x2F;usr&#x2F;share 存放共享数据，&#x2F;usr&#x2F;lib 存放不能直接运行的，却是许多程序运行所必需的一些函数库文件。&#x2F;usr&#x2F;local: 存放软件升级包。&#x2F;usr&#x2F;share&#x2F;doc: 系统说明文件存放目录。&#x2F;usr&#x2F;share&#x2F;man: 程序说明文件存放目录。</li>
+<li><strong>&#x2F;var：</strong>放置系统执行过程中经常变化的文件，如随时更改的日志文件 &#x2F;var&#x2F;log，&#x2F;var&#x2F;log&#x2F;message：所有的登录文件存放目录，&#x2F;var&#x2F;spool&#x2F;mail：邮件存放的目录，&#x2F;var&#x2F;run:程序或服务启动后，其PID存放在该目录下。</li>
+</ul>
+<h2 id="04-Linux命令解析器"><a href="#04-Linux命令解析器" class="headerlink" title="04. Linux命令解析器"></a>04. Linux命令解析器</h2><h3 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1 概述"></a>4.1 概述</h3><ul>
+<li>很多人可能在电视或电影中看到过类似的场景，黑客面对一个黑色的屏幕，上面飘着密密麻麻的字符，梆梆一顿敲，就完成了窃取资料的任务。</li>
+<li>Linux 刚出世时没有什么图形界面，所有的操作全靠命令完成，就如同电视里的黑客那样，充满了神秘与晦涩。</li>
+<li>近几年来，尽管 Linux 发展得非常迅速，图形界面越来越友好，但是在真正的开发过程中，Linux 命令行的应用还是占有非常重要的席位，而且许多Linux功能在命令行界面要比图形化界面下运行的快。可以说不会命令行，就不算会 Linux。</li>
+<li>Linux 提供了大量的命令，利用它可以有效地完成大量的工作，如磁盘操作、文件存取、目录操作、进程管理、文件权限设定等。Linux 发行版本最少的命令也有 200 多个，这里只介绍比较重要和使用频率最多的命令。</li>
+</ul>
+<h3 id="4-2-shell命令解释器"><a href="#4-2-shell命令解释器" class="headerlink" title="4.2 shell命令解释器"></a>4.2 shell命令解释器</h3><p>命令解析器的作用：交互式地解释、执行用户输入的命令，将用户的操作翻译成机器可以识别的语言，完成相应功能。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/8Bash%E8%A7%A3%E6%9E%90%E5%99%A8.png" alt="8Bash解析器"></p>
+<p>Linux系统中提供了好几种不同的命令解释器，如shell(&#x2F;bin&#x2F;sh)、bash(&#x2F;bin&#x2F;bash)等，一般默认使用bash作为默认的解释器。</p>
+<h2 id="05-Bash解析器常用快捷键-熟练"><a href="#05-Bash解析器常用快捷键-熟练" class="headerlink" title="05. Bash解析器常用快捷键(熟练)"></a>05. Bash解析器常用快捷键(熟练)</h2><p><strong>5.1 Tab键</strong></p>
+<ul>
+<li>补齐命令</li>
+<li>补齐路径</li>
+<li>显示当前目录下的所有目录</li>
+</ul>
+<p><strong>5.2 清屏</strong></p>
+<p>clear作用为清除终端上的显示(类似于DOS的cls清屏功能)，也可使用快捷键：Ctrl + L ( “L” 为字母 )。</p>
+<blockquote>
+<p>deng@itcast:~$ clear</p>
+</blockquote>
+<p><strong>5.3 中断进程</strong></p>
+<p>ctlr+c的作用是中断终端的操作。</p>
+<blockquote>
+<p>deng@itcast:&#x2F;$ sleep 3000</p>
+</blockquote>
+<p><strong>5.4 遍历输入的历史命令</strong></p>
+<ul>
+<li>从当前位置向上遍历：ctrl + p （<strong>↑</strong>）</li>
+<li>从当前位置向下遍历： ctrl + n（<strong>↓</strong>）</li>
+</ul>
+<p><strong>5.5 光标相关操作</strong></p>
+<ul>
+<li>光标左移： ctrl + b （<strong>←</strong>）</li>
+<li>坐标右移： ctrl + f （<strong>→</strong>）</li>
+<li>移动到头部： ctrl + a（<strong>Home</strong>）</li>
+<li>移动到尾部： ctlr + e（<strong>End</strong>）</li>
+</ul>
+<p><strong>5.6 字符删除</strong></p>
+<ul>
+<li><p>删除光标前边的字符：ctrl + h（Backspace）</p>
+</li>
+<li><p>删除光标后边的字符：ctrl + d</p>
+<p>光标后边的字符即光标覆盖的字符</p>
+</li>
+<li><p>删除光标前所有内容：ctrl + u</p>
+</li>
+<li><p>删除光标后所有内容：ctrl + k</p>
+</li>
+</ul>
+<h2 id="06-Linux系统相关快捷键-了解"><a href="#06-Linux系统相关快捷键-了解" class="headerlink" title="06. Linux系统相关快捷键(了解)"></a>06. Linux系统相关快捷键(了解)</h2><p><strong>6.1 图形打开终端方式：(三种方式)</strong></p>
+<p>1）Alt + F2 打开运行输入 gnome-terminal</p>
+<p>2） 搜索您的计算机 –&gt; 输入终端 –&gt; 打开</p>
+<p>3）右击桌面打开终端</p>
+<p><strong>6.2 终端相关快捷键</strong></p>
+<p>(终端必须选中)</p>
+<p>Ctrl + Shift + N 新建一个终端 Ctrl + Shift + T 在终端里新建一个标签 Ctrl + Shift + W 关闭标签页 Ctrl + Shift + Q 关闭窗口</p>
+<p>Ctrl + Shift + C 复制 Ctrl + Shift + V 粘贴</p>
+<p>Alt + [1 - 9] 标签之间切换 Ctrl + Shift + &#x3D; 放大终端字体 Ctrl + - 缩小终端字体 Ctrl + 0 普通大小 F11 全屏 再次按F11退出全屏 Ctrl + D 关闭当前一个终端 Alt + F4 关闭整个终端 Ctrl + Shift + F 查找</p>
+<p>终端字体推荐使用：DejaVu Sans Mono Book</p>
+<p>编辑–&gt; 配置文件首选项–&gt; 常规</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/%E6%8E%A8%E8%8D%90%E5%AD%97%E4%BD%93.png" alt="推荐字体"></p>
+<p>Alt + Tab 应用程序间切换 Ctrl + Alt + Backspace 注销 Ctrl + Alt + F7 回到图形界面</p>
+<p>Ctrl + Alt + F1到 Ctrl + Alt + F6 可以访问6个虚拟控制台</p>
+<h2 id="07-内建命令和外部命令-掌握"><a href="#07-内建命令和外部命令-掌握" class="headerlink" title="07. 内建命令和外部命令(掌握)"></a>07. 内建命令和外部命令(掌握)</h2><p><strong>7.1 什么是内建命令</strong></p>
+<p>shell内建命令是指bash（或其它版本）工具中集成的命令。一般都会有一个与之同名的系统命令，比如bash中的echo命令与&#x2F;bin&#x2F;echo是两个不同的命令，尽管他们行为大体相仿。当在bash中键入一个命令时系统会先看他是否是一个内建命令，如果不是才会查看是否是系统命令或第三方工具。所以在bash中键入echo命令实际上执行bash工具集中的bash命令也就是内建命令，而不是&#x2F;bin&#x2F;echo这个系统命令。</p>
+<p><strong>7.2 外部命令</strong></p>
+<p>外部命令是安装外部软件所带的命令</p>
+<p><strong>7.3 内建命令和外部命令对比</strong></p>
+<p>内建命令要比系统论命令有比较高的执行效率。外部命令执行时往往需要fork出（产生出）一个子进程，而内建命令一般不用。外部命令是在bash之外额外安装的，通常放在&#x2F;bin，&#x2F;usr&#x2F;bin，&#x2F;sbin，&#x2F;usr&#x2F;sbin……等等。可通过“echo $PATH”命令查看外部命令的存储路径，比如：ls、vi等。</p>
+<p><strong>7.4 命令类型查看方法</strong></p>
+<p>使用type命令查看：</p>
+<p><strong>格式：</strong></p>
+<p>type [-afptP] 名称 [名称 …] 显示命令类型的信息。</p>
+<p>使用方法示例：</p>
+<blockquote>
+<p>deng@itcast:~$ type -a cd</p>
+<p>cd 是 shell 内建</p>
+<p>deng@itcast:~$ type -a echo</p>
+<p>echo 是 shell 内建</p>
+<p>echo 是 &#x2F;bin&#x2F;echo</p>
+<p>deng@itcast:~$ type -a ls</p>
+<p>ls 是 &#96;ls –color&#x3D;auto’ 的别名</p>
+<p>ls 是 &#x2F;bin&#x2F;ls</p>
+</blockquote>
+<h2 id="08-Linux命令格式-掌握"><a href="#08-Linux命令格式-掌握" class="headerlink" title="08. Linux命令格式(掌握)"></a>08. Linux命令格式(掌握)</h2><p><strong>command [ -options] [parameter1] …</strong></p>
+<p><strong>说明:</strong></p>
+<ul>
+<li>command：命令名，相应功能的英文单词或单词的缩写</li>
+<li>[-options]：选项，可用来对命令进行控制，也可以省略，[]代表可选</li>
+<li>parameter1 …：传给命令的参数，可以是零个一个或多个</li>
+</ul>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/9%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="9命令格式"></p>
+<h2 id="09-帮助文档查看方法"><a href="#09-帮助文档查看方法" class="headerlink" title="09. 帮助文档查看方法"></a>09. 帮助文档查看方法</h2><h3 id="9-1-man-有问题找男人"><a href="#9-1-man-有问题找男人" class="headerlink" title="9.1 man(有问题找男人)"></a>9.1 man(有问题找男人)</h3><p>man 是 Linux 提供的一个手册，包含了绝大部分的命令、函数使用说明。</p>
+<p>该手册分成很多章节（section），使用 man 时可以指定不同的章节来浏览不同的内容。</p>
+<p><strong>man</strong> <strong>中各个</strong> <strong>section</strong> <strong>意义如下：</strong></p>
+<blockquote>
+<p>deng@itcast:~$ man man</p>
+</blockquote>
+<p>1)．Standard commands（标准命令）</p>
+<p>2)．System calls（系统调用，如open,write）</p>
+<p>3)．Library functions（库函数，如printf,fopen）</p>
+<p>4)．Special devices（设备文件的说明，&#x2F;dev下各种设备）</p>
+<p>5)．File formats（文件格式，如passwd）</p>
+<p>6)．Games and toys（游戏和娱乐）</p>
+<p>7)．Miscellaneous（杂项、惯例与协定等，例如Linux档案系统、网络协定、ASCII 码；environ全局变量）</p>
+<p>8)．Administrative Commands（管理员命令，如ifconfig）</p>
+<p><strong>man使用格式如下：</strong></p>
+<p>man [选项] 命令名</p>
+<p><strong>man设置了如下的功能键:</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>功能键</strong></th>
+<th align="left"><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">空格键</td>
+<td align="left">显示手册页的下一屏</td>
+</tr>
+<tr>
+<td align="left">Enter键</td>
+<td align="left">一次滚动手册页的一行</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="left">回滚一屏</td>
+</tr>
+<tr>
+<td align="left">f</td>
+<td align="left">前滚一屏</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">退出man命令</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">列出所有功能键</td>
+</tr>
+<tr>
+<td align="left">&#x2F;word</td>
+<td align="left">搜索word字符串</td>
+</tr>
+</tbody></table>
+<p><strong>用法示例：</strong></p>
+<blockquote>
+<p>man -k passwd 搜索关键词passwd man -a passwd 浏览passwd所有相关的页 man -f passwd 等价于whatis man 1 printf 浏览printf第1页介绍 man 2 read 浏览read第2页介绍 man 3 printf 浏览printf第3页介绍 man 5 passwd 浏览passwd第5页介绍 man 8 chpasswd 浏览chpasswd第8页介绍</p>
+</blockquote>
+<p>如，我们想查看 ls 的用法：<strong>man 1 ls</strong> ( 1：为数字“1”，代表第 1 个 section，标准命令 ) :</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002.jpg" alt="20150317114007352"></p>
+<p>实际上，我们不用指定第几个章节也用查看，如，<strong>man ls</strong>。但是，有这个一种情况，假如，命令的名字和函数的名字刚好重名（如：printf），它既是命令，也可以是库函数，如果，我们不指定章节号，man printf，它只查看命令的用法，不会查询函数的用法，因为 man 是按照手册的章节号的顺序进行搜索的。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527342230159.jpg" alt="20150317120028366"></p>
+<p>所以，使用 man 手册时，最好指定章节号：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527342267908.jpg" alt="20150317120346455"></p>
+<h3 id="9-2-内建命令-help"><a href="#9-2-内建命令-help" class="headerlink" title="9.2 内建命令(help)"></a>9.2 内建命令(help)</h3><p><strong>格式： help + 内建命令</strong></p>
+<p>应用示例：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1527342363291.png" alt="1527342363291"></p>
+<h3 id="9-3-外部命令-–help"><a href="#9-3-外部命令-–help" class="headerlink" title="9.3 外部命令(–help)"></a>9.3 外部命令(–help)</h3><p>一般是 Linux 命令自带的帮助信息，并不是所有命令都自带这个选项。</p>
+<p>如我们想查看命令 ls 的用法：<strong>ls –help</strong></p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1527342577792.png" alt="1527342577792"></p>
+<h2 id="10-绝对路径和相对路径"><a href="#10-绝对路径和相对路径" class="headerlink" title="10. 绝对路径和相对路径"></a>10. 绝对路径和相对路径</h2><p>Unix&#x2F;Linux路径由到达定位文件的目录组成。在Unix&#x2F;Linux系统中组成路径的目录分割符为斜杠“&#x2F;”，而DOS则用反斜杠“\”来分割各个目录。</p>
+<p>路径分为<strong>绝对路径</strong>和<strong>相对路径</strong>：</p>
+<p><strong>1）绝对路径</strong></p>
+<ul>
+<li>绝对路径是从目录树的树根“&#x2F;”目录开始往下直至到达文件所经过的所有节点目录。</li>
+<li>下级目录接在上级目录后面用“&#x2F;”隔开。</li>
+<li>注意：绝对路径都是从“&#x2F;”开始的，所以第一个字符一定是“&#x2F;”。</li>
+</ul>
+<p>&#x2F;home&#x2F;test</p>
+<p>test</p>
+<p>&#x2F;var&#x2F;ftp&#x2F;pub</p>
+<p><strong>2）相对路径</strong></p>
+<ul>
+<li>相对路径是指目标目录相对于当前目录的位置。</li>
+<li>如果不在当前目录下，则需要使用两个特殊目录“.”和“..”了。目录“.”指向当前目录，而目录“..”。</li>
+</ul>
+<p>举例说明：</p>
+<h2 id="11-目录相关的命令"><a href="#11-目录相关的命令" class="headerlink" title="11. 目录相关的命令"></a>11. 目录相关的命令</h2><h3 id="11-1-pwd"><a href="#11-1-pwd" class="headerlink" title="11.1 pwd"></a>11.1 pwd</h3><p>格式：</p>
+<p>pwd [-LP] 打印当前工作目录的名字。</p>
+<p>使用pwd命令可以显示当前的工作目录，该命令很简单，直接输入pwd即可，后面不带参数。</p>
+<blockquote>
+<p>deng@itcast:~$ pwd</p>
+<p>&#x2F;home&#x2F;deng</p>
+</blockquote>
+<h3 id="11-2-cd"><a href="#11-2-cd" class="headerlink" title="11.2 cd"></a>11.2 cd</h3><p>在使用Unix&#x2F;Linux的时候，经常需要更换工作目录。cd命令可以帮助用户切换工作目录。Linux所有的目录和文件名大小写敏感。</p>
+<p>cd后面可跟绝对路径，也可以跟相对路径。如果省略目录，则默认切换到当前用户的主目录。</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>命令</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">cd</td>
+<td align="left">切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)，用户登陆的时候，默认的目录就是用户的主目录。</td>
+</tr>
+<tr>
+<td align="left">cd ~</td>
+<td align="left">切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)</td>
+</tr>
+<tr>
+<td align="left">cd .</td>
+<td align="left">切换到当前目录</td>
+</tr>
+<tr>
+<td align="left">cd ..</td>
+<td align="left">切换到上级目录</td>
+</tr>
+<tr>
+<td align="left">cd -</td>
+<td align="left">可进入上一个进入的目录</td>
+</tr>
+</tbody></table>
+<p>命令使用实例：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527343412853.jpg" alt="img"></p>
+<p><strong>注意：</strong>如果路径是从根路径开始的，则路径的前面需要加上 “ &#x2F; ”，如 “ &#x2F;mnt ”，通常进入某个目录里的文件夹，前面不用加 “ &#x2F; ”。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527343436373.jpg" alt="20150317153729963"></p>
+<h3 id="11-3-mkdir"><a href="#11-3-mkdir" class="headerlink" title="11.3 mkdir"></a>11.3 mkdir</h3><p>用法：mkdir [选项]… 目录…</p>
+<p>通过mkdir命令可以创建一个新的目录(不能新建普通文件)。参数-p可递归创建目录。</p>
+<p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。</p>
+<p>使用示例：</p>
+<blockquote>
+<p>mkdir test 在当前目录下创建test目录 </p>
+<p>mkdir &#x2F;tmp&#x2F;test 在根目录下tmp目录里创建test目录 </p>
+<p>mkdir file{1..100} 在当前目录下创建file1到file100的目录,这里会创建100个目录</p>
+<p>mkdir “file{1..100}” 在当前目录下创建file{1..100}目录,这里只创建一个目录 </p>
+<p>mkdir -p a&#x2F;b&#x2F;c 在当前目录下创建a&#x2F;b&#x2F;c目录树 </p>
+<p>mkdir “a b” 创建以”a b”命名的一个目录 </p>
+<p>mkdir a\ b 创建以”a b”命名的一个目录 </p>
+<p>mkdir a b 创建目录a和目录b</p>
+</blockquote>
+<h3 id="11-4-rmdir"><a href="#11-4-rmdir" class="headerlink" title="11.4 rmdir"></a>11.4 rmdir</h3><p>用法：rmdir [选项]… 目录… 删除指定的空目录。</p>
+<p>可使用rmdir命令删除一个目录。必须离开目录，并且目录必须为空目录，不然提示删除失败。</p>
+<p>使用示例：</p>
+<blockquote>
+<p>rmdir test 删除当前目录的test目录，test必须是空目录 </p>
+<p>rmdir &#x2F;tmp&#x2F;test 删除&#x2F;tmp下的test目录 </p>
+<p>rmdir file{1..100} 删除file1到file100的目录 </p>
+<p>rmdir “file{1..100}” 删除file{1..100}目录 </p>
+<p>rmdir “a b” 删除a b这个目录 r</p>
+<p>mdir a\ b 删除”a b”目录 </p>
+<p>rmdir a b c 删除目录a 目录b 目录c</p>
+</blockquote>
+<h2 id="12-文件类型"><a href="#12-文件类型" class="headerlink" title="12. 文件类型"></a>12. 文件类型</h2><p>Unix&#x2F;Linux对数据文件(<em>.mp3、</em>.bmp)，程序文件(<em>.c、</em>.h、*.o)，设备文件（LCD、触摸屏、鼠标），网络文件( socket ) 等的管理都抽象为文件，使用统一的方式方法管理。 <strong>Linux下一切皆文件。</strong></p>
+<p>在Unix&#x2F;Linux操作系统中也必须区分文件类型，通过文件类型可以判断文件属于可执行文件、文本文件还是数据文件。在Unix&#x2F;Linux系统中文件可以没有扩展名。</p>
+<p><strong>文件类型分类</strong></p>
+<p>通常，Unix&#x2F;Linux系统中常用的文件类型有7种：普通文件、目录文件、设备文件、管道文件、链接文件和套接字。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527344151273.jpg" alt="img"></p>
+<p><strong>1）普通文件</strong></p>
+<p>普通文件是计算机操作系统用于存放数据、程序等信息的文件，一般都长期存放于外存储器（磁盘、磁带等）中。普通文件一般包括<strong>文本文件、数据文件、可执行的二进制程序文件</strong>等。</p>
+<p>在Unix&#x2F;Linux中可以通过file命令来查看文件的类型。如果file文件后面携带文件名，则查看指定文件的类型，如果携带通配符“*”，则可以查看当前目录下的所有文件的类型。</p>
+<p><strong>2）目录文件</strong></p>
+<p>Unix&#x2F;Linux系统把目录看成是一种特殊的文件，利用它构成文件系统的树型结构。</p>
+<p>目录文件只允许系统管理员对其进行修改，用户进程可以读取目录文件，但不能对它们进行修改。</p>
+<p>每个目录文件至少包括两个条目，“..”表示上一级目录，“.”表示该目录本身。</p>
+<p><strong>3）设备文件</strong></p>
+<p>Unix&#x2F;Linux系统把每个设备都映射成一个文件，这就是设备文件。它是用于向I&#x2F;O设备提供连接的一种文件，分为字符设备和块设备文件。</p>
+<p>字符设备的存取以一个字符为单位，块设备的存取以字符块为单位。每一种I&#x2F;O设备对应一个设备文件，存放在&#x2F;dev目录中，如行式打印机对应&#x2F;dev&#x2F;lp，第一个软盘驱动器对应&#x2F;dev&#x2F;fd0。</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share$ echo “hello world” &gt; &#x2F;dev&#x2F;pts&#x2F;22 hello world</p>
+</blockquote>
+<p><strong>4）管道文件</strong></p>
+<p>管道文件也是Unix&#x2F;Linux中较特殊的文件类型，这类文件多用于进程间的通信。</p>
+<p><strong>5）链接文件</strong></p>
+<p>似于 windows 下的快捷方式，链接又可以分为软链接（符号链接）和硬链接。</p>
+<p>软连接：跟快捷方式一模一样，删除本体文件后软连接也会失效</p>
+<p>硬连接：相当于拷贝了一份和本体文件一模一样的内容 删除本体文件后硬连接文件原有的内容不会丢失</p>
+<p><strong>示例：</strong></p>
+<p>普通文件</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ ls -l &#x2F;etc&#x2F;passwd</p>
+<p>-rw-r–r– 1 root root 2372 3月 21 22:48 &#x2F;etc&#x2F;passwd</p>
+</blockquote>
+<p>目录文件</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ ls -ld &#x2F;etc</p>
+<p>drwxr-xr-x 134 root root 12288 5月 28 11:28 &#x2F;etc</p>
+</blockquote>
+<p>字符设备</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ ls -l &#x2F;dev&#x2F;input&#x2F;mouse0</p>
+<p>crw-rw—- 1 root input 13, 32 5月 26 17:01 &#x2F;dev&#x2F;input&#x2F;mouse0</p>
+</blockquote>
+<p>块设备</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ ls -l &#x2F;dev&#x2F;sda1</p>
+<p>brw-rw—- 1 root disk 8, 1 5月 26 17:01 &#x2F;dev&#x2F;sda1</p>
+</blockquote>
+<p>创建一个管道文件</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ mkfifo fifo</p>
+<p>deng@itcast:~&#x2F;test$ ls -l fifo</p>
+<p>prw-rw-r– 1 deng deng 0 5月 28 11:59 fifo</p>
+</blockquote>
+<p>符号链接</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;test$ ls -l &#x2F;bin&#x2F;sh</p>
+<p>lrwxrwxrwx 1 root root 4 11月 17 2017 &#x2F;bin&#x2F;sh -&gt; dash</p>
+<p>deng@itcast:~&#x2F;test$</p>
+</blockquote>
+<p>套接字文件</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;tmp&#x2F;test$ ls -l &#x2F;run&#x2F;systemd&#x2F;notify</p>
+<p>srwxrwxrwx 1 root root 0 8月 8 11:00 &#x2F;run&#x2F;systemd&#x2F;notify</p>
+</blockquote>
+<h2 id="13-文件相关命令"><a href="#13-文件相关命令" class="headerlink" title="13. 文件相关命令"></a>13. 文件相关命令</h2><h3 id="13-1-ls"><a href="#13-1-ls" class="headerlink" title="13.1 ls"></a>13.1 ls</h3><p>ls是英文单词list的简写，其功能为列出目录的内容，是用户最常用的命令之一，它类似于DOS下的dir命令。</p>
+<p>Linux文件或者目录名称最长可以有256个字符，“.”代表当前目录，“..”代表上一级目录，以“.”开头的文件为隐藏文件，需要用 -a 参数才能显示。</p>
+<p><strong>用法：ls [选项]… [文件]…</strong></p>
+<p>ls常用参数：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a</td>
+<td align="left">显示指定目录下所有子目录与文件，包括隐藏文件</td>
+</tr>
+<tr>
+<td align="left">-l</td>
+<td align="left">以列表方式显示文件的详细信息</td>
+</tr>
+<tr>
+<td align="left">-h</td>
+<td align="left">配合 -l 以人性化的方式显示文件大小</td>
+</tr>
+</tbody></table>
+<p>使用示例：</p>
+<blockquote>
+<p>ls -al 显示所有文件包括隐藏文件列表 ls -lt 显示按日期时间排序后的文件列表 等价于ls -l -t ls -lh 显示计算大小为KB为单位的文件列表 ls -dl 显示文件夹详细列表</p>
+</blockquote>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527344484031.jpg" alt="img"></p>
+<p>图中列出的信息含义如下图所示：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/ls%20-l.png" alt="ls -l"></p>
+<p>与DOS下的文件操作类似，在Unix&#x2F;Linux系统中，也同样允许使用特殊字符来同时引用多个文件名，这些特殊字符被称为通配符。 “</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>通配符（了解)</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">文件代表文件名中所有字符</td>
+</tr>
+<tr>
+<td align="left">ls te*</td>
+<td align="left">查找以te开头的文件</td>
+</tr>
+<tr>
+<td align="left">ls *html</td>
+<td align="left">查找结尾为html的文件</td>
+</tr>
+<tr>
+<td align="left">？</td>
+<td align="left">代表文件名中任意一个字符</td>
+</tr>
+<tr>
+<td align="left">ls ?.c</td>
+<td align="left">只找第一个字符任意，后缀为.c的文件</td>
+</tr>
+<tr>
+<td align="left">ls a.?</td>
+<td align="left">只找只有3个字符，前2字符为a.，最后一个字符任意的文件</td>
+</tr>
+<tr>
+<td align="left">[]</td>
+<td align="left">[”和“]”将字符组括起来，表示可以匹配字符组中的任意一个。“-”用于表示字符范围。</td>
+</tr>
+<tr>
+<td align="left">[abc]</td>
+<td align="left">匹配a、b、c中的任意一个</td>
+</tr>
+<tr>
+<td align="left">[a-f]</td>
+<td align="left">匹配从a到f范围内的的任意一个字符</td>
+</tr>
+<tr>
+<td align="left">ls [a-f]*</td>
+<td align="left">找到从a到f范围内的的任意一个字符开头的文件</td>
+</tr>
+<tr>
+<td align="left">ls a-f</td>
+<td align="left">查找文件名为a-f的文件,当“-”处于方括号之外失去通配符的作用</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">如果要使通配符作为普通字符使用，可以在其前面加上转义字符。“?”和“*”处于方括号内时不用使用转义字符就失去通配符的作用。</td>
+</tr>
+<tr>
+<td align="left">ls *a</td>
+<td align="left">查找文件名为*a的文件</td>
+</tr>
+</tbody></table>
+<p>使用示例：</p>
+<p>deng@itcast:~&#x2F;test$ ls [123].html 1.html 2.html 3.html</p>
+<p>deng@itcast:~&#x2F;test$ ls [1-9].html 1.html 2.html 3.html 4.html 5.html 6.html 7.html 8.html 9.html</p>
+<h3 id="13-2-touch"><a href="#13-2-touch" class="headerlink" title="13.2 touch"></a>13.2 touch</h3><p><strong>用法：touch [选项]… 文件…</strong></p>
+<p>1）如果文件不存在, 创建新文件(只能是普通文件，不能是文件夹)</p>
+<p>2）如果文件存在, 更新文件时间</p>
+<p>示例：</p>
+<blockquote>
+<p>touch file 创建file空文件，如果file存在则更新file的存取和修改时间 </p>
+<p>touch file{2,3,4} 同时创建file2,file3,file4三个空文件 </p>
+<p>touch “file{2,3,4}” 创建file{2,3,4}一个空文件</p>
+</blockquote>
+<h3 id="13-3-cp"><a href="#13-3-cp" class="headerlink" title="13.3 cp"></a>13.3 cp</h3><p>cp命令的功能是将给出的文件或目录复制到另一个文件或目录中，相当于DOS下的copy命令 。</p>
+<p>常用选项说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a</td>
+<td align="left">该选项通常在复制目录时使用，它保留链接、文件属性，并递归地复制目录，简单而言，保持文件原有属性。</td>
+</tr>
+<tr>
+<td align="left">-f</td>
+<td align="left">删除已经存在的目标文件而不提示</td>
+</tr>
+<tr>
+<td align="left">-i</td>
+<td align="left">交互式复制，在覆盖目标文件之前将给出提示要求用户确认</td>
+</tr>
+<tr>
+<td align="left">-r</td>
+<td align="left">若给出的源文件是目录文件，则cp将递归复制该目录下的所有子目录和文件，目标文件必须为一个目录名。</td>
+</tr>
+<tr>
+<td align="left">-v</td>
+<td align="left">显示拷贝进度</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<blockquote>
+<p>cp file dirs&#x2F; 把file文件复制到dirs目录下 </p>
+<p>cp file1 file2 dirs&#x2F; 把file1 file2文件拷贝到dirs目录下 </p>
+<p>cp -i file1 file2 把文件file1拷贝到file2中，并且提示 </p>
+<p>cp -t dirs file1 把文件file1拷贝到dirs目录下 </p>
+<p>cp -r dir1&#x2F; dir2&#x2F; 把dir1目录复制到dir2目录下 </p>
+<p>cp -R dir1 dir2 把dir1目录拷贝到dir2目录下 </p>
+<p>cp -a file dirs&#x2F; 把file文件复制到dirs目录下，保留文件的原来属性 </p>
+<p>cp -rf dir1&#x2F; dir2&#x2F; 强制复制文件夹，不提示 </p>
+<p>cp -rvf dir1&#x2F; dir2&#x2F; 把dir1目录复制到dir2目录下，并且显示复制过程</p>
+</blockquote>
+<h3 id="13-4-rm"><a href="#13-4-rm" class="headerlink" title="13.4 rm"></a>13.4 rm</h3><p>可通过rm删除文件或目录。使用rm命令要小心，因为文件删除后不能恢复。为了防止文件误删，可以在rm后使用-i参数以逐个确认要删除的文件。</p>
+<p>常用参数及含义如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-i</td>
+<td align="left">以进行交互式方式执行</td>
+</tr>
+<tr>
+<td align="left">-f</td>
+<td align="left">强制删除，忽略不存在的文件，无需提示</td>
+</tr>
+<tr>
+<td align="left">-r</td>
+<td align="left">递归地删除目录下的内容，删除文件夹时必须加此参数</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<blockquote>
+<p>rm a 删除文件a,在删除之前用户需确认删除该文件 </p>
+<p>rm a b c 删除文件a b c,在删除之前用户需确认是否删除该文件 </p>
+<p>rm -i a 删除文件a,在删除之前用户需确认是否删除该文件 </p>
+<p>rm -f a 删除文件a,强制删除该文件,不需要用户确认是否删除 </p>
+<p>rm -v a 删除文件a,删除之后会显式结果 </p>
+<p>rm -r dirs 递归删除目录dirs,并且每一次删除都需要用户确认是否删除 </p>
+<p>rm -rf dirs 强制递归删除目录dirs,每一次删除都不需要用户确认是否删除</p>
+<p>rm file* 删除所有file打头的文件 r</p>
+<p>m -i file* 提示是否确定删除 </p>
+<p>rm -f file* 不提示，强行删除 </p>
+<p>rm -r dir2 删除目录 </p>
+<p>rm -f [ab].txt 等价于rm -f a.txt b.txt </p>
+<p>rm -f [^ab].txt 删除除a.txt b.txt以外的所有?.txt </p>
+<p>rm -f ?.txt ?代表一个字符 rm -f ???.txt</p>
+</blockquote>
+<h3 id="13-5-mv"><a href="#13-5-mv" class="headerlink" title="13.5 mv"></a>13.5 mv</h3><p>用户可以使用mv命令来移动文件或目录，也可以给文件或目录重命名。</p>
+<p>常用选项说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-f</td>
+<td align="left">禁止交互式操作，如有覆盖也不会给出提示</td>
+</tr>
+<tr>
+<td align="left">-i</td>
+<td align="left">确认交互方式操作，如果mv操作将导致对已存在的目标文件的覆盖，系统会询问是否重写，要求用户回答以避免误覆盖文件</td>
+</tr>
+<tr>
+<td align="left">-v</td>
+<td align="left">显示移动进度</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<blockquote>
+<p>mv file file2 把file文件重命名为file2 </p>
+<p>mv file dirs&#x2F; 把file文件移动到dirs目录下 </p>
+<p>mv file1 file2 dirs&#x2F; 把file1 file2文件剪切到dirs目录下 </p>
+<p>mv dir1 dir2 dir3&#x2F; 把dir1 dir2目录剪切到dir3目录下 </p>
+<p>mv -i file1 dir1&#x2F; 把file1文件剪切到dir1目录下,如果存在覆盖就提示用户 </p>
+<p>mv -f file1 dir1&#x2F; 把file1文件剪切到dir1目录下,如果存在覆盖也不提示用户 </p>
+<p>mv -u dir1&#x2F;* dir2&#x2F; 把dir1目录下所有文件移动到dir2目录下，并且根据文件时间来决定要不要移动</p>
+</blockquote>
+<h2 id="14-文件内容查看命令"><a href="#14-文件内容查看命令" class="headerlink" title="14. 文件内容查看命令"></a>14. 文件内容查看命令</h2><h3 id="14-1-cat"><a href="#14-1-cat" class="headerlink" title="14.1 cat"></a>14.1 cat</h3><p>cat 将文件内容一次性输出到终端。</p>
+<p>缺点：终端显示的内容有限，如果文件太长无法全部显示。</p>
+<p>gedit 文件名</p>
+<p>示例：</p>
+<blockquote>
+<p>cat &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd内容</p>
+<p>cat -n &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd内容,对输出的所有行编号</p>
+<p>cat -b &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd内容并且给非空行编号</p>
+<p>cat -A &#x2F;etc&#x2F;passwd 等价于 -vET</p>
+</blockquote>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527346408773.jpg" alt="2016-05-29_185940"></p>
+<h3 id="14-2-more-了解"><a href="#14-2-more-了解" class="headerlink" title="14.2 more(了解)"></a>14.2 more(了解)</h3><p>more命令将文件内容分页显示到终端，但是只能一直向下浏览，不能回退：</p>
+<blockquote>
+<p>deng@itcast:~$ more &#x2F;etc&#x2F;passwd</p>
+</blockquote>
+<p>相关说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>命令</strong></th>
+<th align="left"><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">回车</td>
+<td align="left">显示下一行</td>
+</tr>
+<tr>
+<td align="left">空格</td>
+<td align="left">显示下一页</td>
+</tr>
+<tr>
+<td align="left">q（ctrl + c）</td>
+<td align="left">退出</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">获取帮助</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527433449726.jpg" alt="2016-05-29_165204_副本"></p>
+<h3 id="14-3-less"><a href="#14-3-less" class="headerlink" title="14.3 less"></a>14.3 less</h3><p>less命令将文件内容分页显示到终端，可以自由上下浏览</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>命令</strong></th>
+<th align="left"><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">回车(ctrl + n)</td>
+<td align="left">显示下一行</td>
+</tr>
+<tr>
+<td align="left">ctrl + p</td>
+<td align="left">显示上一行</td>
+</tr>
+<tr>
+<td align="left">空格(PageDown)</td>
+<td align="left">显示下一页</td>
+</tr>
+<tr>
+<td align="left">PageUp</td>
+<td align="left">显示上一页</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">退出</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">获取帮助</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>deng@itcast:~&#x2F;share&#x2F;test$ less &#x2F;etc&#x2F;passwd</p>
+</blockquote>
+<h3 id="14-4-head"><a href="#14-4-head" class="headerlink" title="14.4 head"></a>14.4 head</h3><ul>
+<li>head命令从文件头部开始查看前 n 行的内容。</li>
+<li>如果没有指定行数，默认显示前10行内容。</li>
+</ul>
+<p>命令格式：</p>
+<p>head –n[行数] 文件名</p>
+<p>示例：</p>
+<blockquote>
+<p>head &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd前10行内容 </p>
+<p>head -c 30 &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd前30个字符 </p>
+<p>head -30 &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd前30行 </p>
+<p>head -n 30 &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd前30行内容 </p>
+<p>head -q &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd的内容,但是不打印头信息 </p>
+<p>head -v &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd的内容,但是打印头信息</p>
+</blockquote>
+<h3 id="14-5-tail"><a href="#14-5-tail" class="headerlink" title="14.5 tail"></a>14.5 tail</h3><ul>
+<li>从文件尾部向上查看最后 n 行的内容</li>
+<li>使用方式：tail –n[行数] 文件名</li>
+<li>如果没有指定行数，默认显示最后10行内容</li>
+</ul>
+<p>示例：</p>
+<blockquote>
+<p>tail &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd后10行内容 </p>
+<p>tail -n 30 &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd后30行内容 </p>
+<p>tail -c 30 &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd后30个字符 </p>
+<p>tail -f &#x2F;etc&#x2F;passwd 实时查看&#x2F;etc&#x2F;passwd文件内容 </p>
+<p>tail -q &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd的内容,但是不打印头信息 </p>
+<p>tail -v &#x2F;etc&#x2F;passwd 查看&#x2F;etc&#x2F;passwd的内容,但是打印头信息</p>
+</blockquote>
+<h2 id="15-du和df命令-了解"><a href="#15-du和df命令-了解" class="headerlink" title="15. du和df命令 (了解)"></a>15. du和df命令 (了解)</h2><h3 id="15-1-du"><a href="#15-1-du" class="headerlink" title="15.1 du"></a>15.1 du</h3><p>du命令用于查看某个目录大小。</p>
+<p>du命令的使用格式如下：</p>
+<p>du [选项] 目录或文件名</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a</td>
+<td align="left">递归显示指定目录中各文件和子目录中文件占用的数据块</td>
+</tr>
+<tr>
+<td align="left">-s</td>
+<td align="left">显示指定文件或目录占用的数据块</td>
+</tr>
+<tr>
+<td align="left">-b</td>
+<td align="left">以字节为单位显示磁盘占用情况</td>
+</tr>
+<tr>
+<td align="left">-h</td>
+<td align="left">以K，M，G为单位，提高信息的可读性</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527434132805.jpg" alt="2016-05-30_161044"></p>
+<h3 id="15-2-df"><a href="#15-2-df" class="headerlink" title="15.2 df"></a>15.2 df</h3><p>df命令用于检测文件系统的磁盘空间占用和空余情况，可以显示所有文件系统对节点和磁盘块的使用情况。</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a</td>
+<td align="left">显示所有文件系统的磁盘使用情况</td>
+</tr>
+<tr>
+<td align="left">-m</td>
+<td align="left">以1024字节为单位显示</td>
+</tr>
+<tr>
+<td align="left">-h</td>
+<td align="left">以K，M，G为单位，提高信息的可读性</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527434184084.jpg" alt="img"></p>
+<h2 id="16-查找相关命令-重点"><a href="#16-查找相关命令-重点" class="headerlink" title="16. 查找相关命令(重点)"></a>16. 查找相关命令(重点)</h2><h3 id="16-1-find"><a href="#16-1-find" class="headerlink" title="16.1 find"></a>16.1 find</h3><p>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件，也可以用来搜索特定用户属主的文件。</p>
+<p><strong>按文件名查询：使用参数 -name</strong></p>
+<p><strong>命令：find + 路径 + -name +“文件名”</strong></p>
+<p>示例：find &#x2F;home -name “a.txt”</p>
+<p><strong>按文件大小查询：使用参数 -size</strong></p>
+<p>命令：find + 路径 + -size + 范围</p>
+<p>范围</p>
+<p>Ø 大于：+表示 – +100k</p>
+<p>Ø 小于：-表示 – -100k</p>
+<p>Ø 等于: 不需要添加符号 – 100k</p>
+<p>大小</p>
+<p>Ø M 必须大写（10M）</p>
+<p>Ø k 必须小写（20k）</p>
+<p>例子: 查询目录为家目录</p>
+<p>等于100k的文件: find ~&#x2F; -size 100k</p>
+<p>大于100k的文件: find ~&#x2F; -size +100k</p>
+<p>大于50k, 小于100k的文件: find ~&#x2F; -size +50k -size -100k</p>
+<p><strong>按文件类型查询：使用参数 -type</strong></p>
+<p>命令：find + 路径 + -type + 类型</p>
+<p>类型</p>
+<p>Ø 普通文件类型用 <strong>f</strong> 表示而不是-</p>
+<p>Ø d -&gt; 目录</p>
+<p>Ø l -&gt; 符号链接</p>
+<p>Ø b -&gt; 块设&#x2F;备文件</p>
+<p>Ø c -&gt; 字符设备文件</p>
+<p>Ø s -&gt; socket文件，网络套接字</p>
+<p>Ø p -&gt; 管道</p>
+<p>查找指定目录下的普通文件： find &#x2F;home -type f</p>
+<blockquote>
+<p>查找根目录下所有的普通文件</p>
+<p>deng@itcast:~$ find &#x2F; -type f</p>
+<p>查找根目录中所有的目录稳步</p>
+<p>deng@itcast:~$ find &#x2F; -type d</p>
+<p>查找根目录所有的字符设备</p>
+<p>deng@itcast:~$ find &#x2F; -type c</p>
+<p>查找根目录下所有的块设备</p>
+<p>deng@itcast:~$ find &#x2F; -type b</p>
+<p>查找根目录下所有的符号链接</p>
+<p>deng@itcast:~$ find &#x2F; -type l</p>
+<p>查找根目录下所有的套接字</p>
+<p>deng@itcast:~$ find &#x2F; -type s</p>
+<p>查找根目录下所有的管道</p>
+<p>deng@itcast:~$ find &#x2F; -type p</p>
+</blockquote>
+<p>示例：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">find /etc -name grub.conf   查找/etc目录下的grub.conf文件</span><br><span class="line">find / -name <span class="string">&quot;*.conf&quot;</span>       查找/下所有.conf文件</span><br><span class="line">find  / -iname grub.conf    查找/目录下的grub.conf文件，忽略大小写</span><br><span class="line">find / -maxdepth 2 -name grub.conf     可以使用-maxdepath参数来控制查找的层次，就是说只查当前目录和子目录,最多查2级目录</span><br><span class="line">find / -mindepth 2 -name grub.conf     最少查二级目录</span><br><span class="line">find /etc -<span class="built_in">type</span> d           查找/etc/下所有的目录</span><br><span class="line">find /etc -<span class="built_in">type</span> f           查找/etc/下的所有普通文件</span><br><span class="line">find /etc -<span class="built_in">type</span> l -name *.conf      查找/etc/下软链接文件是.conf结尾的文件</span><br><span class="line">find /etc -<span class="built_in">type</span> s           查找/etc/下所有socket文件</span><br><span class="line">find /etc -<span class="built_in">type</span> c           查找/etc/下的所有字符设备文件</span><br><span class="line">find /etc -<span class="built_in">type</span> p           查找/etc/下所有管道文件</span><br><span class="line">find /etc -user root        查找/etc/所属用户是root的文件</span><br><span class="line">find /etc -group root       查找/etc/所属用户组是root的文件</span><br><span class="line">find /etc -uid 500          查找/etc/下uid是500的文件,和-user类似</span><br><span class="line">find /etc -gid 500          查找/etc/下gid是500的文件,和-group类似</span><br><span class="line">find /etc -nouser           查找没有所属用户的文件</span><br><span class="line">find /etc -nogroup          查找没有所属用户组的文件</span><br><span class="line">find /etc -perm 777 -<span class="built_in">type</span> d    查找/etc/下权限为777的目录</span><br><span class="line">find . -perm  111           查找权限是111的文件</span><br><span class="line">find . -size +10M           查找当前目录下大于10M的文件，单位可以有K,M,G,b等</span><br><span class="line">find / -size -2M            查找根目录下少于2M的文件</span><br><span class="line">find / -mtime 1             查找根目录下1天以前修改的所有文件</span><br><span class="line">find / -mtime +2            查找根目录下2天以前修改的所有文件</span><br><span class="line">find / -mtime -3            查找根目录下最近3天内修改的所有文件</span><br><span class="line">find / -atime 1             查找根目录下1天以前访问或读过的所有文件</span><br><span class="line">find / -atime -1            查找根目录下最近1天内读过或访问的文件</span><br><span class="line">find / -ctime -3            查找根目录下最近3天内状态发生改变的文件</span><br><span class="line">find / -cmin -3             查找根目录下最近3分钟内状态发生改变的文件</span><br><span class="line">find / -empty               查找根目录下所有空白文件或者空目录</span><br><span class="line">find / -<span class="literal">false</span>               查找根目录下总是错误的文件</span><br></pre></td></tr></table></figure>
+<p>高级用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">find / -<span class="literal">false</span> -<span class="built_in">exec</span> <span class="built_in">ls</span> -l &#123;&#125; \;   查找根目录下总是错误的文件并且用<span class="built_in">ls</span> -l查看</span><br><span class="line">find . -name <span class="string">&quot;*.conf&quot;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> -rf &#123;&#125; \;</span><br><span class="line">find . -name <span class="string">&quot;*.conf&quot;</span> | xargs <span class="built_in">rm</span> -rf 删除当前目录下所有以 .conf 结尾的文件  </span><br><span class="line"></span><br><span class="line">deng@itcast:~$ find cmd/ -name <span class="string">&quot;txt&quot;</span> -ok  <span class="built_in">rm</span> -rf &#123;&#125; \;  删除之前做确认</span><br><span class="line">&lt; <span class="built_in">rm</span> ... cmd/txt &gt; ? y</span><br></pre></td></tr></table></figure>
+<h3 id="16-2-grep"><a href="#16-2-grep" class="headerlink" title="16.2 grep"></a>16.2 grep</h3><p>Linux系统中grep命令是一种强大的文本搜索工具，grep允许对文本文件进行模式查找。如果找到匹配模式， grep打印包含模式的所有行。</p>
+<p>grep一般格式为：</p>
+<p><strong>grep [-选项] ‘搜索内容串’ 文件名</strong></p>
+<p>在grep命令中输入字符串参数时，最好引号或双引号括起来。例如：grep ‘a ’1.txt。</p>
+<p>常用选项说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-v</td>
+<td align="left">显示不包含匹配文本的所有行（相当于求反）</td>
+</tr>
+<tr>
+<td align="left">-n</td>
+<td align="left">显示匹配行及行号</td>
+</tr>
+<tr>
+<td align="left">-i</td>
+<td align="left">忽略大小写</td>
+</tr>
+</tbody></table>
+<p>命令：grep -r + “查找的关键字” + 路径</p>
+<p>搜索目录需要添加参数： -r</p>
+<p>查找 &#x2F;home&#x2F;itcast 下包含“hello，world“字符串的文件</p>
+<p>grep -r “hello，world” &#x2F;home&#x2F;itcast</p>
+<p>示例：</p>
+<blockquote>
+<p>grep -a hello &#x2F;bin&#x2F;ls 将二进制文件以文本文件的方式搜索hello </p>
+<p>grep -i hello &#x2F;etc&#x2F;passwd 在&#x2F;etc&#x2F;passwd文件里找hello并且忽略大小写查找 </p>
+<p>grep -n hello &#x2F;etc&#x2F;passwd 搜索hello结果并显示在文件里出现的行号 </p>
+<p>grep -w hello &#x2F;etc&#x2F;passwd 搜索完全匹配hello单词的行 </p>
+<p>grep -v hello &#x2F;etc&#x2F;passwd 显示出在&#x2F;etc&#x2F;passwd文件里没有hello的行 </p>
+<p>grep -r hello &#x2F;etc&#x2F; 在&#x2F;etc&#x2F;目录里所有文件里找hello并显示结果 </p>
+<p>grep -i hello &#x2F;etc&#x2F;passwd –color&#x3D;auto 在&#x2F;etc&#x2F;passwd文件中找hello并且忽略大小写，然后高亮显示匹配的关键字</p>
+</blockquote>
+<h2 id="17-管道"><a href="#17-管道" class="headerlink" title="17. 管道"></a>17. 管道</h2><p>管道(<strong>|</strong>)：一个命令的输出可以通过管道做为另一个命令的输入。</p>
+<p>管道我们可以理解现实生活中的管子，管子的一头塞东西进去，另一头取出来，这里“ | ”的左右分为两端，左端塞东西(写)，右端取东西(读)。</p>
+<blockquote>
+<p>cat &#x2F;etc&#x2F;passwd | less</p>
+</blockquote>
+<h2 id="18-压缩包管理-重点"><a href="#18-压缩包管理-重点" class="headerlink" title="18. 压缩包管理(重点)"></a>18. 压缩包管理(重点)</h2><h3 id="18-1-tar"><a href="#18-1-tar" class="headerlink" title="18.1 tar"></a>18.1 tar</h3><p>计算机中的数据经常需要备份，tar是Unix&#x2F;Linux中最常用的备份工具，此命令可以把一系列文件归档到一个大文件中，也可以把档案文件解开以恢复数据。</p>
+<p>tar使用格式</p>
+<blockquote>
+<p>tar [选项] 打包文件名 文件</p>
+</blockquote>
+<p>tar命令很特殊，其选项前面可以使用“-”，也可以不使用。</p>
+<p>常用参数：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-c</td>
+<td align="left">生成档案文件，创建打包文件</td>
+</tr>
+<tr>
+<td align="left">-v</td>
+<td align="left">列出归档解档的详细过程，显示进度</td>
+</tr>
+<tr>
+<td align="left">-f</td>
+<td align="left">指定档案文件名称，f后面一定是.tar文件，所以必须放选项最后</td>
+</tr>
+<tr>
+<td align="left">-t</td>
+<td align="left">列出档案中包含的文件</td>
+</tr>
+<tr>
+<td align="left">-x</td>
+<td align="left">解开档案文件</td>
+</tr>
+</tbody></table>
+<p>注意：除了f需要放在参数的最后，其它参数的顺序任意。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527435606703.jpg" alt="2016-05-30_000235_副本"></p>
+<p>tar -cvf 创建归档文件</p>
+<p>tar -xvf 解除归档文件(还原)</p>
+<p>tar -tvf 查看归档文件内容</p>
+<h3 id="18-2-gzip"><a href="#18-2-gzip" class="headerlink" title="18.2 gzip"></a>18.2 gzip</h3><p>l tar与gzip命令结合使用实现文件打包、压缩。</p>
+<p>l tar只负责打包文件，但不压缩，用gzip压缩tar打包后的文件，其扩展名一般用xxxx.tar.gz。</p>
+<p>gzip使用格式如下：</p>
+<blockquote>
+<p>gzip [选项] 被压缩文件</p>
+</blockquote>
+<p>常用选项：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-d</td>
+<td align="left">解压</td>
+</tr>
+<tr>
+<td align="left">-r</td>
+<td align="left">压缩所有子目录</td>
+</tr>
+</tbody></table>
+<p>一次性压缩多个文件: gzip后面不能跟目录</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1533779697262.png" alt="1533779697262"></p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1533779918198.png" alt="1533779918198"></p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527435669757.jpg" alt="2016-05-30_002353"></p>
+<p>tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。</p>
+<p><strong>压缩用法：</strong>tar cvzf 压缩包包名 文件1 文件2 …</p>
+<table>
+<thead>
+<tr>
+<th align="left">-z</th>
+<th align="left">指定压缩包的格式为：file.tar.gz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p>例如：<strong>tar zcvf test.tar.gz 1.c 2.c 3.c 4.c</strong>把 1.c 2.c 3.c 4.c 压缩成 test.tar.gz<img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527435687329.jpg" alt="20150317165114719"></p>
+<p><strong>解压用法：</strong> tar zxvf 压缩包包名</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-z</td>
+<td align="left">指定压缩包的格式为：file.tar.gz</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527435714808.jpg" alt="20150317171031803"></p>
+<p><strong>解压到指定目录：</strong>-C （大写字母“C”）</p>
+<p>例子：tar -xvf new.tar.gz -C .&#x2F;test&#x2F; 将 new.tar.gz 解压到当前目录下的 test 目录下：<img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image004.jpg" alt="20150317171859409"></p>
+<h3 id="18-3-bzip2"><a href="#18-3-bzip2" class="headerlink" title="18.3 bzip2"></a>18.3 bzip2</h3><ul>
+<li>tar与bzip2命令结合使用实现文件打包、压缩(用法和gzip一样)。</li>
+<li>tar只负责打包文件，但不压缩，用bzip2压缩tar打包后的文件，其扩展名一般用xxxx.tar.bz2。</li>
+<li>在tar命令中增加一个选项(-j)可以调用bzip2实现了一个压缩的功能，实行一个先打包后压缩的过程。</li>
+<li>压缩用法：tar jcvf 压缩包包名 文件…(tar jcvf bk.tar.bz2 *.c)</li>
+<li>解压用法：tar jxvf 压缩包包名 (tar jxvf bk.tar.bz2)</li>
+</ul>
+<p>tar -czvf</p>
+<p>tar -cjvf</p>
+<p>tar -xzvf</p>
+<p>tar -xjvf</p>
+<p>tar -xvf 万能解压 (gzip bzip2)</p>
+<p>生成一个bz2压缩包</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share$ tar -cjvf test.tar.bz2 test</p>
+</blockquote>
+<p>解压bz2压缩包</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share$ tar -xjvf share.tar.bz2</p>
+</blockquote>
+<h3 id="18-4-zip和unzip"><a href="#18-4-zip和unzip" class="headerlink" title="18.4 zip和unzip"></a>18.4 zip和unzip</h3><p>l 通过zip压缩文件的目标文件不需要指定扩展名，默认扩展名为zip。</p>
+<p>l 压缩文件：zip -r 目标文件(没有扩展名) 源文件</p>
+<p>l 解压文件：unzip -d 解压后目录文件 压缩文件<img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527435799084.jpg" alt="2016-05-30_004727"></p>
+<h2 id="19-文件权限管理"><a href="#19-文件权限管理" class="headerlink" title="19. 文件权限管理"></a>19. 文件权限管理</h2><h3 id="19-1-文件权限"><a href="#19-1-文件权限" class="headerlink" title="19.1 文件权限"></a>19.1 文件权限</h3><p>文件权限就是文件的访问控制权限，即哪些用户和组群可以访问文件以及可以执行什么样的操作。</p>
+<p>Unix&#x2F;Linux系统是一个典型的多用户系统，不同的用户处于不同的地位，对文件和目录有不同的访问权限。为了保护系统的安全性，Unix&#x2F;Linux系统除了对用户权限作了严格的界定外，还在用户身份认证、访问控制、传输安全、文件读写权限等方面作了周密的控制。</p>
+<p>在 Unix&#x2F;Linux中的每一个文件或目录都包含有访问权限，这些访问权限决定了谁能访问和如何访问这些文件和目录。</p>
+<h3 id="19-2-访问用户分类"><a href="#19-2-访问用户分类" class="headerlink" title="19.2 访问用户分类"></a>19.2 访问用户分类</h3><p>通过设定权限可以从以下三种访问方式限制访问权限：</p>
+<p><strong>1）只允许用户自己访问（所有者）</strong></p>
+<p>所有者就是创建文件的用户，用户是所有用户所创建文件的所有者，用户可以允许所在的用户组能访问用户的文件。</p>
+<p><strong>2）允许一个预先指定的用户组中的用户访问（用户组）</strong></p>
+<p>用户都组合成用户组，例如，某一类或某一项目中的所有用户都能够被系统管理员归为一个用户组，一个用户能够授予所在用户组的其他成员的文件访问权限。</p>
+<p><strong>3）允许系统中的任何用户访问（其他用户）</strong></p>
+<p>用户也将自己的文件向系统内的所有用户开放，在这种情况下，系统内的所有用户都能够访问用户的目录或文件。在这种意义上，系统内的其他所有用户就是 other 用户类</p>
+<p>这有点类似于 QQ 空间的访问权限：</p>
+<p>l 这个 QQ 空间是属于我的，我相当于管理者（也就是“所有者”），我想怎么访问就怎么访问。</p>
+<p>l 同时，我可以设置允许 QQ 好友访问，而这些 QQ 好友则类似于“用户组”。</p>
+<p>l 当然，我可以允许所有人访问，这里的所有人则类似于(不完全等价)“其他用户”。</p>
+<h3 id="19-3-访问权限说明"><a href="#19-3-访问权限说明" class="headerlink" title="19.3 访问权限说明"></a>19.3 访问权限说明</h3><p>用户能够控制一个给定的文件或目录的访问程度，一个文件或目录可能有读、写及执行权限：</p>
+<ul>
+<li>读权限（r）</li>
+</ul>
+<p>对文件而言，具有读取文件内容的权限；对目录来说，具有浏览目录的权限。</p>
+<ul>
+<li>写权限（w）</li>
+</ul>
+<p>对文件而言，具有新增、修改文件内容的权限；对目录来说，具有删除、移动目录内文件的权限。</p>
+<ul>
+<li>可执行权限（x）</li>
+</ul>
+<p>对文件而言，具有执行文件的权限；对目录了来说该用户具有进入目录的权限。</p>
+<p>注意：通常，Unix&#x2F;Linux系统只允许文件的属主(所有者)或超级用户改变文件的读写权限。</p>
+<h3 id="19-4-chmod-掌握"><a href="#19-4-chmod-掌握" class="headerlink" title="19.4 chmod(掌握)"></a>19.4 chmod(掌握)</h3><p>chmod 修改文件权限有两种使用格式：字母法与数字法。</p>
+<p><strong>字母法：</strong>chmod u&#x2F;g&#x2F;o&#x2F;a +&#x2F;-&#x2F;&#x3D; rwx 文件</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>[ u&#x2F;g&#x2F;o&#x2F;a ]</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">u</td>
+<td align="left">user 表示该文件的所有者</td>
+</tr>
+<tr>
+<td align="left">g</td>
+<td align="left">group 表示与该文件的所有者属于同一组( group )者，即用户组</td>
+</tr>
+<tr>
+<td align="left">o</td>
+<td align="left">other 表示其他以外的人</td>
+</tr>
+<tr>
+<td align="left">a</td>
+<td align="left">all 表示这三者皆是</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>[ +-&#x3D; ]</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">+</td>
+<td align="left">增加权限</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">撤销权限</td>
+</tr>
+<tr>
+<td align="left">&#x3D;</td>
+<td align="left">设定权限</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>rwx</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">r</td>
+<td align="left">read 表示可读取，对于一个目录，如果没有r权限，那么就意味着不能通过ls查看这个目录内部的内容。</td>
+</tr>
+<tr>
+<td align="left">w</td>
+<td align="left">write 表示可写入，对于一个目录，如果没有w权限，那么就意味着不能在目录下创建新的文件。</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="left">excute 表示可执行，对于一个目录，如果没有x权限，那么就意味着不能通过cd进入这个目录。</td>
+</tr>
+</tbody></table>
+<p><strong>chmod o+w file</strong> 给文件file的其它用户增加写权限：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436344760.jpg" alt="20150318101929779"></p>
+<p><strong>chmod u-r file</strong> 给文件file的拥有者减去读的权限：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image004-1527436344760.jpg" alt="20150318102451521"></p>
+<p><strong>chmod g&#x3D;x file</strong>设置文件file的所属组权限为可执行，同时去除读、写权限：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image006.jpg" alt="20150318102845115"></p>
+<p><strong>数字法：</strong>“rwx” 这些权限也可以用数字来代替</p>
+<table>
+<thead>
+<tr>
+<th align="left">r</th>
+<th align="left">读取权限，数字代号为 “4”</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">w</td>
+<td align="left">写入权限，数字代号为 “2”</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="left">执行权限，数字代号为 “1”</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">不具任何权限，数字t代号为 “0”</td>
+</tr>
+</tbody></table>
+<p>如执行：chmod u&#x3D;rwx,g&#x3D;rx,o&#x3D;r filename</p>
+<p>就等同于：chmod u&#x3D;7,g&#x3D;5,o&#x3D;4 filename(不可以执行)</p>
+<p>**chmod 751 file**<strong>：</strong></p>
+<p>l 文件所有者：读、写、执行权限</p>
+<p>l 同组用户：读、执行的权限</p>
+<p>l 其它用户：执行的权限</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436373799.jpg" alt="20150318104319700"></p>
+<p>chmod 777 file：所有用户拥有读、写、执行权限</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image004-1527436373799.jpg" alt="20150318105238743"></p>
+<p>注意：如果想递归所有目录加上相同权限，需要加上参数“ -R ”。</p>
+<p>如：chmod 777 test&#x2F; -R 递归 test 目录下所有文件加 777 权限。</p>
+<h3 id="19-5-chown-了解"><a href="#19-5-chown-了解" class="headerlink" title="19.5 chown(了解)"></a>19.5 chown(了解)</h3><p>l chown用于修改文件所有者</p>
+<p>l 使用方法：chown 用户名 文件或目录名</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436391297.jpg" alt="2016-05-30_212216"></p>
+<p>将文件所属者修改为root用户</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share&#x2F;test的密码： ls -l txt -rw-rw-r– 1 root deng 0 10月 10 11:12 txt</p>
+</blockquote>
+<p>将文件所属者改为deng 所属组改为root</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share&#x2F;test ls -l txt -rw-rw-r– 1 deng root 0 10月 10 11:12 txt</p>
+</blockquote>
+<p>单独只修改文件所属组</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share&#x2F;test ls -l txt -rw-rw-r– 1 deng root 0 10月 10 11:12 txt</p>
+</blockquote>
+<h3 id="19-6-chgrp-了解"><a href="#19-6-chgrp-了解" class="headerlink" title="19.6 chgrp (了解)"></a>19.6 chgrp (了解)</h3><p>l chgrp用于修改文件所属组</p>
+<p>l 使用方法：chgrp 用户组名 文件或目录名</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436456220.jpg" alt="2016-05-30_212432"></p>
+<p>单独修改文件所属组</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share&#x2F;test ls -l txt -rw-rw-r– 1 deng deng 0 10月 10 11:12 txt</p>
+</blockquote>
+<h2 id="20-进程管理-后面再讲"><a href="#20-进程管理-后面再讲" class="headerlink" title="20. 进程管理(后面再讲)"></a>20. 进程管理(后面再讲)</h2><h3 id="20-1-ps"><a href="#20-1-ps" class="headerlink" title="20.1 ps"></a>20.1 ps</h3><p>进程是一个具有一定独立功能的程序，它是操作系统动态执行的基本单元。</p>
+<p>ps命令可以查看进程的详细状况，常用选项(选项可以不加“-”)如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>选项</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a</td>
+<td align="left">显示终端上的所有进程，包括其他用户的进程</td>
+</tr>
+<tr>
+<td align="left">-u</td>
+<td align="left">显示进程的详细状态</td>
+</tr>
+<tr>
+<td align="left">-x</td>
+<td align="left">显示没有控制终端的进程</td>
+</tr>
+<tr>
+<td align="left">-w</td>
+<td align="left">显示加宽，以便显示更多的信息</td>
+</tr>
+<tr>
+<td align="left">-r</td>
+<td align="left">只显示正在运行的进程</td>
+</tr>
+</tbody></table>
+<p>ps aux</p>
+<p>ps ef</p>
+<p>ps -a</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436564167.jpg" alt="2016-05-29_230200"></p>
+<h3 id="20-2-top"><a href="#20-2-top" class="headerlink" title="20.2 top"></a>20.2 top</h3><p>top命令用来动态显示运行中的进程。top命令能够在运行后，在指定的时间间隔更新显示信息。可以在使用top命令时加上-d 来指定显示信息更新的时间间隔。</p>
+<p>在top命令执行后，可以按下按键得到对显示的结果进行排序：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>按键</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">M</td>
+<td align="left">根据内存使用量来排序</td>
+</tr>
+<tr>
+<td align="left">P</td>
+<td align="left">根据CPU占有率来排序</td>
+</tr>
+<tr>
+<td align="left">T</td>
+<td align="left">根据进程运行时间的长短来排序</td>
+</tr>
+<tr>
+<td align="left">U</td>
+<td align="left">可以根据后面输入的用户名来筛选进程</td>
+</tr>
+<tr>
+<td align="left">K</td>
+<td align="left">可以根据后面输入的PID来杀死进程。</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">退出</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">获得帮助</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436598410.jpg" alt="2016-05-29_231626"></p>
+<h3 id="20-3-kill"><a href="#20-3-kill" class="headerlink" title="20.3 kill"></a>20.3 kill</h3><p>kill命令指定进程号的进程，需要配合 ps 使用。</p>
+<p>使用格式：</p>
+<p>kill [-signal] pid</p>
+<p>信号值从0到15，其中9为绝对终止，可以处理一般信号无法终止的进程。</p>
+<p><strong>kill 9133</strong> ：9133 为应用程序所对应的进程号</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436647473.jpg" alt="20150318112100659"></p>
+<p>有些进程不能直接杀死，这时候我们需要加一个参数“ -9 ”，“ -9 ” 代表强制结束：</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436664857.jpg" alt="20150318112401325"></p>
+<h3 id="20-4-killall"><a href="#20-4-killall" class="headerlink" title="20.4 killall"></a>20.4 killall</h3><p>通过进程名字杀死进程</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/1527498996963.png" alt="1527498996963"></p>
+<h2 id="21-软件安装和卸载"><a href="#21-软件安装和卸载" class="headerlink" title="21. 软件安装和卸载"></a>21. 软件安装和卸载</h2><h3 id="21-1-在线安装"><a href="#21-1-在线安装" class="headerlink" title="21.1 在线安装"></a>21.1 在线安装</h3><p>如果是在ubuntu平台，软件的安装可以通过互联网在线安装，更加方便快捷：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>命令</strong></th>
+<th align="left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">sudo apt-get update</td>
+<td align="left">获得最新的软件包的列表</td>
+</tr>
+<tr>
+<td align="left">sudo apt-get install xxx</td>
+<td align="left">从源中安装xxx软件</td>
+</tr>
+<tr>
+<td align="left">sudo apt-get remove xxx</td>
+<td align="left">删除xxx软件</td>
+</tr>
+<tr>
+<td align="left">sudo apt-get clean</td>
+<td align="left">清理安装包</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436722457.jpg" alt="2016-05-29_200452_副本"></p>
+<h3 id="21-2-软件包安装"><a href="#21-2-软件包安装" class="headerlink" title="21.2 软件包安装"></a>21.2 软件包安装</h3><p>在Ubuntu下安装文件为deb格式</p>
+<p>软件安装</p>
+<p>sudo dpkg -i xxx.deb</p>
+<p>软件卸载</p>
+<p>sudo dpkg -r 软件名</p>
+<p>示例:</p>
+<p>tree软件安装</p>
+<blockquote>
+<p>deng@itcast:~$ sudo dpkg -i tree_1.6.0-1_amd64.deb</p>
+</blockquote>
+<p>tree软件卸载</p>
+<blockquote>
+<p>deng@itcast:~$ sudo dpkg -r tree</p>
+</blockquote>
+<h2 id="22-重定向"><a href="#22-重定向" class="headerlink" title="22. 重定向"></a>22. 重定向</h2><p>重定向</p>
+<p>标准输入 代码 0 默认设备为键盘<br>​ 标准输出 代码 1 默认设备为屏幕<br>​ 错误输出 代码 2 默认设备为屏幕</p>
+<p>ls &#x2F;etc&#x2F;passwd &gt; output.txt 标准正确输出重定向到output.txt </p>
+<p>ls &#x2F;etc&#x2F;shadow &gt;&gt; output.txt 标准正确输出追加重定向到output.txt </p>
+<p>ls dddddd 2&gt; error.txt 标准错误输出重定向到error.txt </p>
+<p>ls ddddd 2&gt;&gt; error.txt 标准错误输出重定向到error.txt,追加的方式 </p>
+<p>ls dddddd 2&gt; &#x2F;dev&#x2F;null 标准错误输出重定向到黑洞 </p>
+<p>ls ddddd &#x2F;etc&#x2F;passwd &amp;&gt; &#x2F;dev&#x2F;null 标准正确输出标准错误输出全都重定向到黑洞 </p>
+<p>ls ddddd &#x2F;etc&#x2F;passwd &amp;&gt;&gt; txt 标准正确输出标准错误输出以追加的方式全都重定向到txt</p>
+<p>cat &lt; file 标准输入重定向,file作为cat输入的内容</p>
+<h2 id="23-其它命令"><a href="#23-其它命令" class="headerlink" title="23. 其它命令"></a>23. 其它命令</h2><h3 id="23-1-tree"><a href="#23-1-tree" class="headerlink" title="23.1 tree"></a>23.1 tree</h3><p>tree 以树状形式查看指定目录内容，使用该命令需要安装软件 tree：</p>
+<blockquote>
+<p>sudo apt install tree</p>
+</blockquote>
+<p>常用选项：</p>
+<table>
+<thead>
+<tr>
+<th align="left">-L n</th>
+<th align="left">查看n层目录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527436987887.jpg" alt="img"></p>
+<h3 id="23-2-ln-掌握"><a href="#23-2-ln-掌握" class="headerlink" title="23.2 ln(掌握)"></a>23.2 ln(掌握)</h3><p>ln命令主要用于创建链接文件。Linux链接文件类似于Windows下的快捷方式。</p>
+<p>链接文件分为软链接和硬链接：</p>
+<ul>
+<li>软链接：软链接不占用磁盘空间，源文件删除则软链接失效。</li>
+<li>硬链接：硬链接只能链接普通文件，不能链接目录。</li>
+</ul>
+<p>使用格式：</p>
+<p>ln 源文件 链接文件</p>
+<p>ln -s 源文件 链接文件</p>
+<p>如果没有-s选项代表建立一个硬链接文件，两个文件占用相同大小的硬盘空间，即使删除了源文件，链接文件还是存在，所以-s选项是更常见的形式。</p>
+<p>注意：如果软链接文件和源文件不在同一个目录，源文件最好要使用绝对路径，不要使用相对路径。</p>
+<p><img src="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/clip_image002-1527437184702.jpg" alt="img"></p>
+<p>readlink命令读取符号链接文件的内容(存储目标文件的路径)</p>
+<blockquote>
+<p>deng@itcast:~&#x2F;share$ readlink a_link2 &#x2F;home&#x2F;deng&#x2F;share&#x2F;a</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://jinchengXie99.github.io">Jincheng Xie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jinchengxie99.github.io/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/">https://jinchengxie99.github.io/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jinchengXie99.github.io" target="_blank">Jincのblog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/">Linux系统编程</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/04/30/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC02%E5%A4%A9%EF%BC%88vim-gcc-%E5%8A%A8%E6%80%81%E5%BA%93%E9%9D%99%E6%80%81%E5%BA%93%EF%BC%89/"><img class="prev-cover" src="https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux系统编程-第02天（vim-gcc-动态库静态库）</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/19/%E6%B7%B1%E5%85%A5%E5%BA%94%E7%94%A8C-%E9%9A%8F%E7%AC%94/"><img class="next-cover" src="https://img1.baidu.com/it/u=3758033088,2640479584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=820&amp;h=461" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">深入应用C++11:note</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/04/30/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC02%E5%A4%A9%EF%BC%88vim-gcc-%E5%8A%A8%E6%80%81%E5%BA%93%E9%9D%99%E6%80%81%E5%BA%93%EF%BC%89/" title="Linux系统编程-第02天（vim-gcc-动态库静态库）"><img class="cover" src="https://img1.baidu.com/it/u=3424568019,2040822130&fm=253&fmt=auto&app=138&f=PNG?w=500&h=300" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-30</div><div class="title">Linux系统编程-第02天（vim-gcc-动态库静态库）</div></div></a></div><div><a href="/2022/05/01/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC03%E5%A4%A9%EF%BC%88makefile-%E6%96%87%E4%BB%B6IO%EF%BC%89/" title="Linux系统编程-第03天（makefile-文件IO）"><img class="cover" src="https://img1.baidu.com/it/u=3424568019,2040822130&fm=253&fmt=auto&app=138&f=PNG?w=500&h=300" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-01</div><div class="title">Linux系统编程-第03天（makefile-文件IO）</div></div></a></div><div><a href="/2022/05/02/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC04%E5%A4%A9%EF%BC%88%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%EF%BC%89/" title="Linux系统编程-第04天（文件和目录操作函数）"><img class="cover" src="https://img1.baidu.com/it/u=3424568019,2040822130&fm=253&fmt=auto&app=138&f=PNG?w=500&h=300" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-02</div><div class="title">Linux系统编程-第04天（文件和目录操作函数）</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://down.556z.com/upload/2020/12/202012141607934528737148.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jincheng Xie</div><div class="author-info__description">锅不仅可以烧饭,而且可以写代码.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jinchengXie99"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/jinchengXie99" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chengdiy@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog.  很高兴你能来到我的博客。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Linux系统编程-第01天（基本命令）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">01. 学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-Linux-x2F-Unix%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">02. Linux&#x2F;Unix操作系统简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%AE%E6%A0%87-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 Linux操作系统的目标(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BD%9C%E7%94%A8-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 Linux操作系统的作用(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Unix%E5%AE%B6%E6%97%8F-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 Unix家族 (了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Linux%E5%AE%B6%E6%97%8F-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4 Linux家族(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Linux%E5%92%8CUnix%E7%9A%84%E8%81%94%E7%B3%BB-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5 Linux和Unix的联系(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-Linux%E5%86%85%E6%A0%B8%E4%BB%8B%E7%BB%8D-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.6.</span> <span class="toc-text">2.6 Linux内核介绍(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%AC-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.7.</span> <span class="toc-text">2.7 Linux发行版本(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-Unix-x2F-Linux%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F%E4%BB%8B%E7%BB%8D-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.2.8.</span> <span class="toc-text">2.8 Unix&#x2F;Linux开发应用领域介绍(了解)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">03. Linux目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Win%E5%92%8CLinux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 Win和Linux文件系统区别 (了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Linux%E5%B8%B8%E8%A7%81%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D-%E7%86%9F%E6%82%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 Linux常见目录介绍(熟悉)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-Linux%E5%91%BD%E4%BB%A4%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-number">1.4.</span> <span class="toc-text">04. Linux命令解析器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-shell%E5%91%BD%E4%BB%A4%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 shell命令解释器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-Bash%E8%A7%A3%E6%9E%90%E5%99%A8%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE-%E7%86%9F%E7%BB%83"><span class="toc-number">1.5.</span> <span class="toc-text">05. Bash解析器常用快捷键(熟练)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-Linux%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E5%BF%AB%E6%8D%B7%E9%94%AE-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.6.</span> <span class="toc-text">06. Linux系统相关快捷键(了解)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E5%86%85%E5%BB%BA%E5%91%BD%E4%BB%A4%E5%92%8C%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4-%E6%8E%8C%E6%8F%A1"><span class="toc-number">1.7.</span> <span class="toc-text">07. 内建命令和外部命令(掌握)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#08-Linux%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F-%E6%8E%8C%E6%8F%A1"><span class="toc-number">1.8.</span> <span class="toc-text">08. Linux命令格式(掌握)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#09-%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95"><span class="toc-number">1.9.</span> <span class="toc-text">09. 帮助文档查看方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-man-%E6%9C%89%E9%97%AE%E9%A2%98%E6%89%BE%E7%94%B7%E4%BA%BA"><span class="toc-number">1.9.1.</span> <span class="toc-text">9.1 man(有问题找男人)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E5%86%85%E5%BB%BA%E5%91%BD%E4%BB%A4-help"><span class="toc-number">1.9.2.</span> <span class="toc-text">9.2 内建命令(help)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4-%E2%80%93help"><span class="toc-number">1.9.3.</span> <span class="toc-text">9.3 外部命令(–help)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">1.10.</span> <span class="toc-text">10. 绝对路径和相对路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">1.11.</span> <span class="toc-text">11. 目录相关的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1-pwd"><span class="toc-number">1.11.1.</span> <span class="toc-text">11.1 pwd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2-cd"><span class="toc-number">1.11.2.</span> <span class="toc-text">11.2 cd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-3-mkdir"><span class="toc-number">1.11.3.</span> <span class="toc-text">11.3 mkdir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-4-rmdir"><span class="toc-number">1.11.4.</span> <span class="toc-text">11.4 rmdir</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.12.</span> <span class="toc-text">12. 文件类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="toc-number">1.13.</span> <span class="toc-text">13. 文件相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-1-ls"><span class="toc-number">1.13.1.</span> <span class="toc-text">13.1 ls</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-2-touch"><span class="toc-number">1.13.2.</span> <span class="toc-text">13.2 touch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-3-cp"><span class="toc-number">1.13.3.</span> <span class="toc-text">13.3 cp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-4-rm"><span class="toc-number">1.13.4.</span> <span class="toc-text">13.4 rm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-5-mv"><span class="toc-number">1.13.5.</span> <span class="toc-text">13.5 mv</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4"><span class="toc-number">1.14.</span> <span class="toc-text">14. 文件内容查看命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#14-1-cat"><span class="toc-number">1.14.1.</span> <span class="toc-text">14.1 cat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-2-more-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.14.2.</span> <span class="toc-text">14.2 more(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-3-less"><span class="toc-number">1.14.3.</span> <span class="toc-text">14.3 less</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-4-head"><span class="toc-number">1.14.4.</span> <span class="toc-text">14.4 head</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-5-tail"><span class="toc-number">1.14.5.</span> <span class="toc-text">14.5 tail</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-du%E5%92%8Cdf%E5%91%BD%E4%BB%A4-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.15.</span> <span class="toc-text">15. du和df命令 (了解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#15-1-du"><span class="toc-number">1.15.1.</span> <span class="toc-text">15.1 du</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-2-df"><span class="toc-number">1.15.2.</span> <span class="toc-text">15.2 df</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E6%9F%A5%E6%89%BE%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4-%E9%87%8D%E7%82%B9"><span class="toc-number">1.16.</span> <span class="toc-text">16. 查找相关命令(重点)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#16-1-find"><span class="toc-number">1.16.1.</span> <span class="toc-text">16.1 find</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-2-grep"><span class="toc-number">1.16.2.</span> <span class="toc-text">16.2 grep</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-%E7%AE%A1%E9%81%93"><span class="toc-number">1.17.</span> <span class="toc-text">17. 管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-%E5%8E%8B%E7%BC%A9%E5%8C%85%E7%AE%A1%E7%90%86-%E9%87%8D%E7%82%B9"><span class="toc-number">1.18.</span> <span class="toc-text">18. 压缩包管理(重点)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#18-1-tar"><span class="toc-number">1.18.1.</span> <span class="toc-text">18.1 tar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-gzip"><span class="toc-number">1.18.2.</span> <span class="toc-text">18.2 gzip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-3-bzip2"><span class="toc-number">1.18.3.</span> <span class="toc-text">18.3 bzip2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-4-zip%E5%92%8Cunzip"><span class="toc-number">1.18.4.</span> <span class="toc-text">18.4 zip和unzip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#19-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="toc-number">1.19.</span> <span class="toc-text">19. 文件权限管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#19-1-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="toc-number">1.19.1.</span> <span class="toc-text">19.1 文件权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-2-%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%E5%88%86%E7%B1%BB"><span class="toc-number">1.19.2.</span> <span class="toc-text">19.2 访问用户分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-3-%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E8%AF%B4%E6%98%8E"><span class="toc-number">1.19.3.</span> <span class="toc-text">19.3 访问权限说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-4-chmod-%E6%8E%8C%E6%8F%A1"><span class="toc-number">1.19.4.</span> <span class="toc-text">19.4 chmod(掌握)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-5-chown-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.19.5.</span> <span class="toc-text">19.5 chown(了解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-6-chgrp-%E4%BA%86%E8%A7%A3"><span class="toc-number">1.19.6.</span> <span class="toc-text">19.6 chgrp (了解)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#20-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E5%90%8E%E9%9D%A2%E5%86%8D%E8%AE%B2"><span class="toc-number">1.20.</span> <span class="toc-text">20. 进程管理(后面再讲)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#20-1-ps"><span class="toc-number">1.20.1.</span> <span class="toc-text">20.1 ps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-2-top"><span class="toc-number">1.20.2.</span> <span class="toc-text">20.2 top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-3-kill"><span class="toc-number">1.20.3.</span> <span class="toc-text">20.3 kill</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-4-killall"><span class="toc-number">1.20.4.</span> <span class="toc-text">20.4 killall</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD"><span class="toc-number">1.21.</span> <span class="toc-text">21. 软件安装和卸载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-1-%E5%9C%A8%E7%BA%BF%E5%AE%89%E8%A3%85"><span class="toc-number">1.21.1.</span> <span class="toc-text">21.1 在线安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-2-%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%AE%89%E8%A3%85"><span class="toc-number">1.21.2.</span> <span class="toc-text">21.2 软件包安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.22.</span> <span class="toc-text">22. 重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-%E5%85%B6%E5%AE%83%E5%91%BD%E4%BB%A4"><span class="toc-number">1.23.</span> <span class="toc-text">23. 其它命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#23-1-tree"><span class="toc-number">1.23.1.</span> <span class="toc-text">23.1 tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-2-ln-%E6%8E%8C%E6%8F%A1"><span class="toc-number">1.23.2.</span> <span class="toc-text">23.2 ln(掌握)</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/02/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC04%E5%A4%A9%EF%BC%88%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%EF%BC%89/" title="Linux系统编程-第04天（文件和目录操作函数）"><img src="https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统编程-第04天（文件和目录操作函数）"/></a><div class="content"><a class="title" href="/2022/05/02/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC04%E5%A4%A9%EF%BC%88%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%EF%BC%89/" title="Linux系统编程-第04天（文件和目录操作函数）">Linux系统编程-第04天（文件和目录操作函数）</a><time datetime="2022-05-02T04:49:23.000Z" title="发表于 2022-05-02 12:49:23">2022-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/01/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC03%E5%A4%A9%EF%BC%88makefile-%E6%96%87%E4%BB%B6IO%EF%BC%89/" title="Linux系统编程-第03天（makefile-文件IO）"><img src="https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统编程-第03天（makefile-文件IO）"/></a><div class="content"><a class="title" href="/2022/05/01/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC03%E5%A4%A9%EF%BC%88makefile-%E6%96%87%E4%BB%B6IO%EF%BC%89/" title="Linux系统编程-第03天（makefile-文件IO）">Linux系统编程-第03天（makefile-文件IO）</a><time datetime="2022-05-01T15:36:31.000Z" title="发表于 2022-05-01 23:36:31">2022-05-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/30/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC02%E5%A4%A9%EF%BC%88vim-gcc-%E5%8A%A8%E6%80%81%E5%BA%93%E9%9D%99%E6%80%81%E5%BA%93%EF%BC%89/" title="Linux系统编程-第02天（vim-gcc-动态库静态库）"><img src="https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统编程-第02天（vim-gcc-动态库静态库）"/></a><div class="content"><a class="title" href="/2022/04/30/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC02%E5%A4%A9%EF%BC%88vim-gcc-%E5%8A%A8%E6%80%81%E5%BA%93%E9%9D%99%E6%80%81%E5%BA%93%EF%BC%89/" title="Linux系统编程-第02天（vim-gcc-动态库静态库）">Linux系统编程-第02天（vim-gcc-动态库静态库）</a><time datetime="2022-04-30T15:19:35.000Z" title="发表于 2022-04-30 23:19:35">2022-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/" title="Linux系统编程-第01天（基本命令）"><img src="https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统编程-第01天（基本命令）"/></a><div class="content"><a class="title" href="/2022/04/29/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E7%AC%AC01%E5%A4%A9%EF%BC%88%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%89/" title="Linux系统编程-第01天（基本命令）">Linux系统编程-第01天（基本命令）</a><time datetime="2022-04-29T15:13:15.000Z" title="发表于 2022-04-29 23:13:15">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/19/%E6%B7%B1%E5%85%A5%E5%BA%94%E7%94%A8C-%E9%9A%8F%E7%AC%94/" title="深入应用C++11:note"><img src="https://img1.baidu.com/it/u=3758033088,2640479584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=820&amp;h=461" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深入应用C++11:note"/></a><div class="content"><a class="title" href="/2022/04/19/%E6%B7%B1%E5%85%A5%E5%BA%94%E7%94%A8C-%E9%9A%8F%E7%AC%94/" title="深入应用C++11:note">深入应用C++11:note</a><time datetime="2022-04-19T15:46:09.000Z" title="发表于 2022-04-19 23:46:09">2022-04-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://img1.baidu.com/it/u=3424568019,2040822130&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=500&amp;h=300')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Jincheng Xie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">哟！屏幕前有个大帅逼。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
